@@ -20,11 +20,11 @@ app.config['UPLOAD_FOLDER'] = 'uploads/'
 def index():
     return render_template('example_simple_exportwav.html')
 
-@app.route('/stims/<path:path>')
-def send_js(path):
-    print "trying to..."
-    print path
-    return send_from_directory('stims', path)
+# @app.route('/stims/<path:path>')
+# def send_js(path):
+#     print "trying to..."
+#     print path
+#     return send_from_directory('stims', path)
 
 
 # @app.route('/upload', methods = ['POST'])
