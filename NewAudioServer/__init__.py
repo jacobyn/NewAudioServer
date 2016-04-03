@@ -22,6 +22,8 @@ def index():
 
 @app.route('/stims/<path:path>')
 def send_js(path):
+    print "trying to..."
+    print path
     return send_from_directory('stims', path)
 
 
