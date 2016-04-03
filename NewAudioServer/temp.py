@@ -28,7 +28,7 @@ def index():
 @app.route('/getAudioFileName', methods = ['GET'])
 def getAudioFileName():
     print("here...")
-    filename='uploads/stim1.ogg'
+    filename='audio.norijacoby.com/stims/stim1.ogg'
     print ("got a get request returning filename: " + filename)
     out= dumps({"fname": filename})
     print out

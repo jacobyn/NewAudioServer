@@ -20,19 +20,23 @@ app.config['UPLOAD_FOLDER'] = 'uploads/'
 def index():
     return render_template('example_simple_exportwav.html')
 
+@app.route('/stims/<path:path>')
+def send_js(path):
+    return send_from_directory('stims', path)
 
-@app.route('/upload', methods = ['POST'])
-def upldfile():
 
-    if request.method == 'POST':
-        print request.method
-        file = request.files['file']
-        #filename = secure_filename(file.filename)
-        filename ='uploaded.wav'
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        print "saved in " + filename
-        print file
-        return "OK"
+# @app.route('/upload', methods = ['POST'])
+# def upldfile():
+
+#     if request.method == 'POST':
+#         print request.method
+#         file = request.files['file']
+#         #filename = secure_filename(file.filename)
+#         filename ='uploaded.wav'
+#         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#         print "saved in " + filename
+#         print file
+#         return "OK"
 
 
 if __name__ == '__main__':
