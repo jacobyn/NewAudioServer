@@ -33,17 +33,19 @@ def index():
 
 @app.route('/analyze', methods = ['POST'])
 def anal():
+    myrnd=random.randint(1000,10000)
+    filename ='AAA_uploaded'+str(myrnd)+'.wav'
     if request.method == 'POST':
         print request.method
         file = request.files['file']
         #filename = secure_filename(file.filename)
-        filename ='uploadedxxx.wav'
+        #filename ='uploadedxxx.wav'
         tempfname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
         print "tempfname:" + tempfname
         #f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
         file.save(tempfname)
         print "saved in " + tempfname
-        return "OK"
+        return Response(dumps({'filename': filename}), status=200, mimetype='application/json')
 
 # def analyze():
 #     myrnd=random.randint(1000,10000)
