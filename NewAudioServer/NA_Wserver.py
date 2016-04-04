@@ -45,12 +45,16 @@ def upldfile():
 
         print "analyzing response... of upload post"
         if request.method == 'POST':
-            print request.method
             file = request.files['file']
-            temp_fname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(temp_fname)
+            #temp_fname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            # file.save(temp_fname)
+            # print "about to  sent: " + temp_fname
+            # files = {'file': open(temp_fname, 'rb')}
+
             print "about to  sent: " + temp_fname
-            files = {'file': open(temp_fname, 'rb')}
+            files = {'file': file, 'filename': filename}
+
+
             r = requests.post(url, files=files)
             print "was sent"
             print r.text

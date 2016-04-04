@@ -11,7 +11,6 @@ import shutil
 # Initialize the Flask application
 app = Flask(__name__)
 
-
 # This is the path to the upload directory
 app.config['UPLOAD_FOLDER'] = '/var/www/NewAudioServer/NewAudioServer/uploads/'
 
@@ -34,11 +33,12 @@ def index():
 @app.route('/analyze', methods = ['POST'])
 def anal():
     myrnd=random.randint(1000,10000)
-    filename ='AAA_uploaded'+str(myrnd)+'.wav'
+
     if request.method == 'POST':
         print request.method
         file = request.files['file']
-        #filename = secure_filename(file.filename)
+        ofilename = secure_filename(file.filename)
+        filename ='AAA_uploaded'+str(myrnd)+ ofilename +'.wav'
         #filename ='uploadedxxx.wav'
         tempfname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
         print "tempfname:" + tempfname
