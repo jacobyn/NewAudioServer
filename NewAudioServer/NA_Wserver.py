@@ -37,17 +37,22 @@ def getAudioFileName():
 
 @app.route('/upload', methods = ['POST'])
 def upldfile():
+    mscript='analyze.m'
+    url='audio.norijacoby.com/analyze'
+    myrnd=random.randint(1000,10000)
+    filename ='uploaded'+str(myrnd)+'.wav'
+
     print "analyzing response... of upload post"
     if request.method == 'POST':
         print request.method
         file = request.files['file']
-        #filename = secure_filename(file.filename)
-        myrnd=random.randint(1000,10000)
-        filename ='uploaded'+str(myrnd)+'.wav'
-        print(filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        print "saved in " + filename
-        print file
+        print "uploaded as fname:" + filename + "script: " + mscript
+        #data_to_send = {'file': file.read(), 'mscript': mscript ,'fname': filename}
+        data_to_send = {'file': '', 'mscript': mscript ,'fname': filename}
+        print "about to  sent"
+        r = requests.post(url, file=data_to_send)
+        print "was sent"
         return "OK"
 
 
