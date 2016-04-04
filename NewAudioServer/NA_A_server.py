@@ -27,8 +27,15 @@ def index():
 
 @app.route('/analyze', methods = ['POST'])
 def analyze():
- filename='xxx'
- if request.method == 'POST':
+    filename='xxx'
+    myrnd=random.randint(1000,10000)
+    filename ='AAA_uploaded'+str(myrnd)+'.wav'
+
+    if request.method == 'POST':
+        print request.method
+        file = request.files['file']
+        temp_fname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(temp_fname)
         # print request.method
         # data = request.files['file']
         # fname = data['fname']
@@ -40,8 +47,8 @@ def analyze():
         # myrnd=random.randint(1000,10000)
         # filename=fname+str(myrnd)+'.wav'
         # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        print "saved in: " + filename
-        return Response(dumps({'filename': filename}), status=200, mimetype='application/json')
+        print "saved in: " + temp_fname
+        return Response(dumps({'filename': temp_fname}), status=200, mimetype='application/json')
 
 # How to do send
 # import requests

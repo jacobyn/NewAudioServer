@@ -10,7 +10,7 @@ import random
 from json import dumps
 import os
 import requests
-
+import shutil
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -37,23 +37,26 @@ def getAudioFileName():
 
 @app.route('/upload', methods = ['POST'])
 def upldfile():
-    mscript='analyze.m'
-    url='audio.norijacoby.com/analyze'
-    myrnd=random.randint(1000,10000)
-    filename ='uploaded'+str(myrnd)+'.wav'
+    try:
+        mscript='analyze.m'
+        url='audio.norijacoby.com/analyze'
+        myrnd=random.randint(1000,10000)
+        filename ='uploaded'+str(myrnd)+'.wav'
 
-    print "analyzing response... of upload post"
-    if request.method == 'POST':
-        print request.method
-        file = request.files['file']
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        print "uploaded as fname:" + filename + "script: " + mscript
-        #data_to_send = {'file': file.read(), 'mscript': mscript ,'fname': filename}
-        data_to_send = {'file': '', 'mscript': mscript ,'fname': filename}
-        print "about to  sent"
-        r = requests.post(url, file=data_to_send)
-        print "was sent"
-        return "OK"
+        print "analyzing response... of upload post"
+        if request.method == 'POST':
+            print request.method
+            file = request.files['file']
+            temp_fname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(temp_fname)
+            print "about to  sent: " + temp_fname
+            files = {'file': open(temp_fname, 'rb')}
+            r = requests.post(url, files=files)
+            print "was sent"
+            print r.text
+            return "OK"
+    except Exception as e:
+        print(e)
 
 
 if __name__ == '__main__':
