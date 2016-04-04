@@ -38,9 +38,9 @@ def anal():
         filename ='uploadedxxx.wav'
         tempfname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
         print "tempfname:" + tempfname
-        file.save(tempfname)
+        f= open('uploads/uploaded.wav', 'rb')
+        f.save(tempfname)
         print "saved in " + tempfname
-        print file
         return "OK"
 
 # def analyze():
