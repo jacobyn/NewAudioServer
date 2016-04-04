@@ -42,7 +42,7 @@ def upldfile():
         url='http://audio.norijacoby.com/analyze'
         myrnd=random.randint(1000,10000)
         tfname='fileToUpload' +str(myrnd)
-        filename ='script.' + mscript + 'file.' + tfname + '.wav'
+        filename ='script.' + mscript + '.file.' + tfname + '.wav'
 
         if request.method == 'POST':
             file = request.files['file']
