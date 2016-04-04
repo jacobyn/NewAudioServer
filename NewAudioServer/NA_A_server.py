@@ -35,9 +35,11 @@ def anal():
         print request.method
         file = request.files['file']
         #filename = secure_filename(file.filename)
-        filename ='uploaded.wav'
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        print "saved in " + filename
+        filename ='uploadedxxx.wav'
+        tempfname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        print "tempfname:" + tempfname
+        file.save(tempfname)
+        print "saved in " + tempfname
         print file
         return "OK"
 
