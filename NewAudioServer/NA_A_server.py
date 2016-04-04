@@ -36,21 +36,10 @@ def analyze():
 
     if request.method == 'POST':
         #print request.method
-        #file = request.files['file']
-        #temp_fname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        #file.save(temp_fname)
-        # print request.method
-        # data = request.files['file']
-        # fname = data['fname']
-        # print fname
-        # mscript = data['mscript']
-        # print mscript
-        # file = data['file']
+        file = request.files['file']
+        temp_fname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(temp_fname)
 
-        # myrnd=random.randint(1000,10000)
-        # filename=fname+str(myrnd)+'.wav'
-        # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        #print "saved in: " + temp_fname
         return Response(dumps({'filename': filename}), status=200, mimetype='application/json')
 
 # How to do send
