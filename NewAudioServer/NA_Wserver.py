@@ -45,15 +45,15 @@ def upldfile():
 
         print "analyzing response... of upload post"
         if request.method == 'POST':
-            # print request.method
-            # file = request.files['file']
-            # temp_fname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            # file.save(temp_fname)
-            # print "about to  sent: " + temp_fname
-            # files = {'file': open(temp_fname, 'rb')}
-            # r = requests.post(url, files=files)
-            # print "was sent"
-            # print r.text
+            print request.method
+            file = request.files['file']
+            temp_fname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(temp_fname)
+            print "about to  sent: " + temp_fname
+            files = {'file': open(temp_fname, 'rb')}
+            r = requests.post(url, files=files)
+            print "was sent"
+            print r.text
             return "OK"
     except Exception as e:
         print(e)
