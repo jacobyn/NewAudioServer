@@ -13,7 +13,9 @@ app = Flask(__name__)
 
 
 # This is the path to the upload directory
-app.config['UPLOAD_FOLDER'] = '/tmp/'
+app.config['UPLOAD_FOLDER'] = '/var/www/NewAudioServer/NewAudioServer/uploads/'
+
+#'/tmp/'
 
 
 # This route will show a form to perform an AJAX request
