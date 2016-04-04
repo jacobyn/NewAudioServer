@@ -41,6 +41,7 @@ def anal():
 
         #parse fname
         pfname=ofname.split(".")
+        print pfname
         assert pfname[0]=='script'
         assert pfname[2]=='file'
         mscript=secure_filename(pfname[1])
