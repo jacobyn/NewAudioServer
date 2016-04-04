@@ -38,8 +38,8 @@ def anal():
         filename ='uploadedxxx.wav'
         tempfname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
         print "tempfname:" + tempfname
-        f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
-        f.save(tempfname)
+        #f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
+        file.save(tempfname)
         print "saved in " + tempfname
         return "OK"
 
