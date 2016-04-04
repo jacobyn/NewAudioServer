@@ -30,6 +30,7 @@ def index():
 #     return send_from_directory('stims', path)
 
 @app.route('/analyze', methods = ['POST'])
+def anal():
     if request.method == 'POST':
         print request.method
         file = request.files['file']
