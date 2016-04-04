@@ -9,8 +9,6 @@ from werkzeug import secure_filename
 
 import NA_A_server
 
-# Initialize the Flask application
-app = Flask(__name__)
 
 
 from NA_A_server import *

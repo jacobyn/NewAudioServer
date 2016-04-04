@@ -1,3 +1,7 @@
+# Initialize the Flask application
+app = Flask(__name__)
+
+
 # This is the path to the upload directory
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 
