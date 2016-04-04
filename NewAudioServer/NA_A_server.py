@@ -38,6 +38,7 @@ def analyze():
         #print request.method
         file = request.files['file']
         temp_fname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        temp_fname='stam.wav'
         file.save(temp_fname)
 
         return Response(dumps({'filename': filename}), status=200, mimetype='application/json')
