@@ -54,7 +54,10 @@ def anal():
         #f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
         file.save(tempfname)
         print "saved in " + tempfname
-        return Response(dumps({'filename': filename}), status=200, mimetype='application/json')
+        cmd= "nohup matlab -nodisplay -nodesktop -nosplash -r 'fname= '" + 'uploads/' + tempfname + "'; AudioInfo(); exit' > temp.out"
+        #nohup matlab -nodisplay -nodesktop -nosplash -r "fname= 'uploads/BBB-MatlabAnal-fileToUpload5748-rnd-5107.wav'; AudioInfo(); exit" > temp.out
+
+        return Response(dumps({'filename': filename, 'cmd': cmd}), status=200, mimetype='application/json')
 
 # def analyze():
 #     myrnd=random.randint(1000,10000)
