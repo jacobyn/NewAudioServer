@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 
 # This is the path to the upload directory
-app.config['UPLOAD_FOLDER'] = 'uploads/'
+app.config['UPLOAD_FOLDER'] = '/tmp/'
 
 
 # This route will show a form to perform an AJAX request
@@ -38,7 +38,7 @@ def anal():
         filename ='uploadedxxx.wav'
         tempfname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
         print "tempfname:" + tempfname
-        f= open('uploads/uploaded.wav', 'rb')
+        f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
         f.save(tempfname)
         print "saved in " + tempfname
         return "OK"
