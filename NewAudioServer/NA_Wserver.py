@@ -39,7 +39,7 @@ def getAudioFileName():
 def upldfile():
     try:
         mscript='analyze.m'
-        url='audio.norijacoby.com/analyze'
+        url='http://audio.norijacoby.com/analyze'
         myrnd=random.randint(1000,10000)
         filename ='uploaded'+str(myrnd)+'.wav'
 
