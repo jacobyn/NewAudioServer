@@ -38,12 +38,12 @@ def getAudioFileName():
 @app.route('/upload', methods = ['POST'])
 def upldfile():
     try:
-        mscript='analyze.m'
+        mscript='MatlabAnal'
         url='http://audio.norijacoby.com/analyze'
         myrnd=random.randint(1000,10000)
-        filename ='uploaded'+str(myrnd)+'.wav'
+        tfname='fileToUpload' +str(myrnd)
+        filename ='script.' + mscript + 'file.' + tfname + '.wav'
 
-        print "analyzing response... of upload post"
         if request.method == 'POST':
             file = request.files['file']
             #temp_fname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -51,12 +51,11 @@ def upldfile():
             # print "about to  sent: " + temp_fname
             # files = {'file': open(temp_fname, 'rb')}
 
-            print "about to  sent: " + temp_fname
-            files = {'file': file, 'filename': filename}
-
+            print "about to  sent: "
+            #files = {'file': file}
+            files = {'file': (filename, file)}
 
             r = requests.post(url, files=files)
-            print "was sent"
             print r.text
             return "OK"
     except Exception as e:

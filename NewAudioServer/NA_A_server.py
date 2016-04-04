@@ -37,8 +37,16 @@ def anal():
     if request.method == 'POST':
         print request.method
         file = request.files['file']
-        ofilename = secure_filename(file.filename)
-        filename ='AAA_uploaded'+str(myrnd)+ ofilename +'.wav'
+        ofname=file.filename
+
+        #parse fname
+        pfname=ofname.split(".")
+        assert pfname[0]=='script'
+        assert pfname[2]=='file'
+        mscript=secure_filename(pfname[1])
+        fname=secure_filename(pfname[3])
+
+        filename ='BBB-' + mscript + '-' + fname + '-rnd-' + str(myrnd)+ '.wav'
         #filename ='uploadedxxx.wav'
         tempfname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
         print "tempfname:" + tempfname
