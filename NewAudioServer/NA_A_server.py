@@ -54,7 +54,7 @@ def anal():
         #f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
         file.save(tempfname)
         print "saved in " + tempfname
-        cmd= "nohup matlab -nodisplay -nodesktop -nosplash -r 'fname= '" + 'uploads/' + tempfname + "'; AudioInfo(); exit' > temp.out"
+        cmd= "nohup matlab -nodisplay -nodesktop -nosplash -r \"fname= \'"  + tempfname + "\'; AudioInfo(); exit\" > temp.out"
         #nohup matlab -nodisplay -nodesktop -nosplash -r "fname= 'uploads/BBB-MatlabAnal-fileToUpload5748-rnd-5107.wav'; AudioInfo(); exit" > temp.out
 
         return Response(dumps({'filename': filename, 'cmd': cmd}), status=200, mimetype='application/json')
