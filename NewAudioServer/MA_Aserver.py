@@ -35,6 +35,9 @@ def index():
 
 @app.route('/test')
 def test():
+    print "**************"
+    print "testing: 456!!"
+    print "**************"
     return "456"
 
 # @app.route('/stims/<path:path>')
