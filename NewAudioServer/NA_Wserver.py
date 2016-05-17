@@ -18,6 +18,22 @@ app = Flask(__name__)
 # This is the path to the upload directory
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 
+def send_analyze(file):
+     mscript='AudioInfo'
+     url='http://audio.norijacoby.com/analyze'
+     session_id=str(random.randint(1000,10000))
+     myrnd=random.randint(1000,10000)
+     tfname='fileToUpload' +str(myrnd)
+     return_route='AnalyzeReady'
+     return send_do(file, session_id, mscript,  tfname, return_route)
+
+def send_do(file, session_id='9999', script='AudioInfo', fname_orig='temp', return_route='AnalyzeReady'):
+    filename ='session.' + session_id + '.script.' + script + '.file.' + fname_orig + '.rroute.' + return_route + '.wav'
+    files = {'file': (filename, file)}
+    r = requests.post(url, files=files)
+    print r.text
+    return "OK"
+
 # This route will show a form to perform an AJAX request
 # jQuery is loaded to execute the request and update the
 # value of the operation
@@ -38,32 +54,28 @@ def getAudioFileName():
 @app.route('/upload', methods = ['POST'])
 def upldfile():
     try:
-        mscript='MatlabAnal'
-        url='http://audio.norijacoby.com/analyze'
-        myrnd=random.randint(1000,10000)
-        tfname='fileToUpload' +str(myrnd)
-        filename ='script.' + mscript + '.file.' + tfname + '.wav'
-
         if request.method == 'POST':
             file = request.files['file']
-            #temp_fname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            # file.save(temp_fname)
-            # print "about to  sent: " + temp_fname
-            # files = {'file': open(temp_fname, 'rb')}
-
             print "about to  sent: "
-            #files = {'file': file}
-            files = {'file': (filename, file)}
-
-            r = requests.post(url, files=files)
-            print r.text
-            return "OK"
+            return send_analyze(file)
     except Exception as e:
         print(e)
 
-
 if __name__ == '__main__':
    app.run()
+
+# @app.route('/upload', methods = ['POST'])
+# def upldfile():
+#     try:
+#         if request.method == 'POST':
+#             file = request.files['file']
+#             print "about to  sent: "
+#             return send_analyze(file)
+#     except Exception as e:
+#         print(e)
+
+
+
 
 # How to do send
 # import requests

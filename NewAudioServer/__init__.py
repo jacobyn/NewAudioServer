@@ -9,7 +9,7 @@ from werkzeug import secure_filename
 # browser the file that the user just uploaded
 
 
-from NA_A_server import *
+from NA_Aserver import *
 
 if __name__ == '__main__':
    app.run()
