@@ -18,9 +18,11 @@ app = Flask(__name__)
 # This is the path to the upload directory
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 
+url='http://audio.norijacoby.com/analyze'
+
 def send_analyze(file):
      mscript='AudioInfo'
-     url='http://audio.norijacoby.com/analyze'
+
      session_id=str(random.randint(1000,10000))
      myrnd=random.randint(1000,10000)
      tfname='fileToUpload' +str(myrnd)
