@@ -59,7 +59,7 @@ def send_do(file, params):
     r = requests.post(url, files=files)
     pfile.close()
     print r.text
-    return "OK"
+    return "OK: " + r.text
 
 # This route will show a form to perform an AJAX request
 # jQuery is loaded to execute the request and update the

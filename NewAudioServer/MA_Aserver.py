@@ -106,10 +106,16 @@ def anal():
         pfile.save(pfname)
         print "saved in: " + pfname
 
+        print 'read paramters...'
         pf=open(pfname,'r')
         params=json.load(pf)
         print params
 
+
+        matlab_cmd=params['matlab_cmd']
+        print "matlab_cmd= {}".format(matlab_cmd)
+
+        os.system(matlab_cmd)
 
 
         return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
