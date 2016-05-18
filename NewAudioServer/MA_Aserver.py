@@ -1,4 +1,5 @@
 import os
+import subprocess
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, Blueprint, Response, request, render_template
 from werkzeug import secure_filename
 import random
@@ -18,6 +19,7 @@ if IS_MAC:
     matlab_cmd="/Applications/MATLAB_R2014b.app/bin/matlab"
 else:
     app.config['UPLOAD_FOLDER'] = '/var/www/NewAudioServer/NewAudioServer/res/' ######### THIS DIRECTORY IS DIRABLE YOU NEED TO EVENTUALLY NOT ALLOW DIRRING
+    app.config['RUN_FOLDER'] = '/var/www/NewAudioServer/NewAudioServer/run/' ######### THIS DIRECTORY IS
     matlab_cmd='matlab'
 
 
@@ -115,12 +117,33 @@ def anal():
         print params
 
 
+
         matlab_cmd=params['matlab_cmd']
-        matlab_cmd="sudo -u root " + matlab_cmd.replace('XXXXXX/',resdir)
+        matlab_cmd=matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
+        #matlab_cmd=os.path.join(app.config['UPLOAD_FOLDER'], matlab_cmd)
+
+
+
+        session_id=params['session_id']
+        file_id=params['file_id']
+        sver=params['ver']
+
+        rfname =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.run.sh'
+        rfname=os.path.join(app.config['UPLOAD_FOLDER'], matlab_cmd)
+
+        print "rfname:{}".format(rfname)
+
+        with open(rfname, "w") as text_file:
+            text_file.write("#!/bin/bash\n"+matlab_cmd)
+        chmod_fname='chmod +u +x ' +rfname
+
+        print "cfname:{}".format(chmod_fname)
+
+        os.system(chmod_fname)
 
         print "matlab_cmd= {}".format(matlab_cmd)
 
-        os.system(matlab_cmd)
+        os.system(rfname)
 
 
         return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
