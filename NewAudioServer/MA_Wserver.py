@@ -14,6 +14,7 @@ import shutil
 import socket
 import StringIO
 
+aver='MA1'
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -30,7 +31,7 @@ def send_analyze(file):
      tfname='fileToUpload' +str(myrnd)
      return_route='AnalyzeReady'
 
-     params={'mscript':mscript, 'session_id':session_id, 'file_id': myrnd, 'upFileName': tfname, 'return_route': return_route }
+     params={'mscript':mscript, 'session_id':session_id, 'file_id': myrnd, 'upFileName': tfname, 'return_route': return_route,'ver':aver }
 
 
      return send_do(file, params)
@@ -38,8 +39,9 @@ def send_analyze(file):
 def send_do(file, params):
     session_id=params['session_id']
     file_id=params['file_id']
-    filename =  'session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
-    pfilename = 'session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
+    sver=params['ver']
+    filename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
+    pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
     pfile = StringIO.StringIO(params)
 
     files = {'rec': (filename, file), 'param': (pfilename,pfile)}
