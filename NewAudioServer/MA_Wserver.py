@@ -46,7 +46,7 @@ def send_do(file, params):
     sver=params['ver']
     rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
     pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
-    mlogfilename = '/XXXXXX' + sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
+    mlogfilename = 'XXXXXX/' + sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
 
     matlab_cmd= 'matlab -nodisplay -nodesktop -nosplash -nojvm -r "MA_Mwraper(\'' + pfilename +  "\'); exit\" > " + mlogfilename
 
