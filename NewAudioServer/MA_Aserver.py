@@ -99,7 +99,6 @@ def anal():
         print "pfname:" + pfname
         pfile.save(pfname)
         print "saved in: " + pfname
-        return Response("dumps({'pfname': pfname})", status=200, mimetype='application/json')
 
         rfname=os.path.join(app.config['UPLOAD_FOLDER'], orfname)
         print "rfname:" + rfname
