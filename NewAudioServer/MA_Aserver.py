@@ -119,31 +119,31 @@ def anal():
 
 
         matlab_cmd=params['matlab_cmd']
-        matlab_cmd=matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
+        matlab_cmd="su -root " + matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
         #matlab_cmd=os.path.join(app.config['UPLOAD_FOLDER'], matlab_cmd)
 
 
 
-        session_id=params['session_id']
-        file_id=params['file_id']
-        sver=params['ver']
+        # session_id=params['session_id']
+        # file_id=params['file_id']
+        # sver=params['ver']
 
-        rfname =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.run.sh'
-        rfname=os.path.join(app.config['UPLOAD_FOLDER'],rfname)
+        # rfname =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.run.sh'
+        # rfname=os.path.join(app.config['UPLOAD_FOLDER'],rfname)
 
-        print "rfname:{}".format(rfname)
+        # print "rfname:{}".format(rfname)
 
-        with open(rfname, "w") as text_file:
-            text_file.write("#!/bin/bash\n"+matlab_cmd)
-        chmod_fname='chmod u+x ' +rfname
+        # with open(rfname, "w") as text_file:
+        #     text_file.write("#!/bin/bash\n"+matlab_cmd)
+        # chmod_fname='chmod u+x ' +rfname
 
-        print "cfname:{}".format(chmod_fname)
+        # print "cfname:{}".format(chmod_fname)
 
-        os.system(chmod_fname)
+        # os.system(chmod_fname)
 
-        print "matlab_cmd= {}".format(matlab_cmd)
+        # print "matlab_cmd= {}".format(matlab_cmd)
 
-        os.system(rfname)
+        os.system(matlab_cmd)
 
 
         return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
