@@ -7,7 +7,7 @@ import os
 import requests
 import shutil
 
-IS_MAC=True
+IS_MAC=False
 
 # Initialize the Flask application
 app = Flask(__name__)
