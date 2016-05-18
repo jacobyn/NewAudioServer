@@ -141,7 +141,7 @@ def anal():
 
         # os.system(chmod_fname)
 
-        # print "matlab_cmd= {}".format(matlab_cmd)
+        print "matlab_cmd= {}".format(matlab_cmd)
 
         os.system(matlab_cmd)
 
