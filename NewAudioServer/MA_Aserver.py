@@ -147,7 +147,7 @@ def anal():
 
         print "matlab_cmd= {}".format(matlab_cmd)
 
-        os.system("sudo su - root  matlab" + rfname)
+        os.system("sudo su - root  matlab " + rfname)
 
 
         return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
