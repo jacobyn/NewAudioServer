@@ -35,7 +35,7 @@ def index():
 
 @app.route('/test')
 def test():
-    mver='101'
+    mver='102'
     print "*******************"
     print "testing, ver: " + mver
     print "*******************"
@@ -102,7 +102,7 @@ def anal():
 
         rfname=os.path.join(app.config['UPLOAD_FOLDER'], orfname)
         print "rfname:" + rfname
-        pfile.save(rfname)
+        rfile.save(rfname)
         print "saved in: " + rfname
         return Response("dumps({'pfname': pfname})", status=200, mimetype='application/json')
 
