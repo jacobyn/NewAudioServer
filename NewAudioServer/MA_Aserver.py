@@ -133,7 +133,7 @@ def anal():
         sver=params['ver']
 
         rfname =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.run.sh'
-        rfname=os.path.join(app.config['UPLOAD_FOLDER'],rfname)
+        rfname=os.path.join(app.config['RUN_FOLDER'],rfname)
 
         print "rfname:{}".format(rfname)
 
@@ -148,7 +148,6 @@ def anal():
         print "matlab_cmd= {}".format(matlab_cmd)
 
         os.system("sudo su - root " + rfname)
-
 
         return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
 
