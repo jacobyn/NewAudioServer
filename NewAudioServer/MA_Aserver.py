@@ -135,7 +135,7 @@ def anal():
 
         with open(rfname, "w") as text_file:
             text_file.write("#!/bin/bash\n"+matlab_cmd)
-        chmod_fname='chmod +u +x ' +rfname
+        chmod_fname='chmod u+x ' +rfname
 
         print "cfname:{}".format(chmod_fname)
 
