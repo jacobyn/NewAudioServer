@@ -106,7 +106,8 @@ def anal():
         pfile.save(pfname)
         print "saved in: " + pfname
 
-        params=json.loads(pfname)
+        pf=open(pfname,'r')
+        params=json.load(pf)
         print params
 
 
