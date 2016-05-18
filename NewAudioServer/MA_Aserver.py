@@ -129,7 +129,7 @@ def anal():
         sver=params['ver']
 
         rfname =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.run.sh'
-        rfname=os.path.join(app.config['UPLOAD_FOLDER'], matlab_cmd)
+        rfname=os.path.join(app.config['UPLOAD_FOLDER'],rfname)
 
         print "rfname:{}".format(rfname)
 
