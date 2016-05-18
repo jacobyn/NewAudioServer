@@ -38,7 +38,7 @@ def index():
 
 @app.route('/test')
 def test():
-    mver='104'
+    mver='105'
     print "*******************"
     print "testing, ver: " + mver
     print "*******************"
