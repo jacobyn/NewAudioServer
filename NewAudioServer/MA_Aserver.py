@@ -116,7 +116,7 @@ def anal():
 
 
         matlab_cmd=params['matlab_cmd']
-        matlab_cmd=matlab_cmd.replace('XXXXXX/',resdir)
+        matlab_cmd="sudo -u root " + matlab_cmd.replace('XXXXXX/',resdir)
 
         print "matlab_cmd= {}".format(matlab_cmd)
 
