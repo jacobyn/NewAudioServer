@@ -119,7 +119,7 @@ def anal():
 
 
         matlab_cmd=params['matlab_cmd']
-        matlab_cmd="su -root " + matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
+        matlab_cmd="su -root -c " + matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
         #matlab_cmd=os.path.join(app.config['UPLOAD_FOLDER'], matlab_cmd)
 
 
