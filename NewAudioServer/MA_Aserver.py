@@ -36,7 +36,7 @@ def index():
 
 @app.route('/test')
 def test():
-    mver='103'
+    mver='104'
     print "*******************"
     print "testing, ver: " + mver
     print "*******************"
@@ -109,6 +109,7 @@ def anal():
         pf=open(pfname,'r')
         params=json.load(pf)
         print params
+
 
 
         return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
