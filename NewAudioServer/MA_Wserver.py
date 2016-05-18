@@ -38,8 +38,8 @@ def send_analyze(file):
 def send_do(file, params):
     session_id=params['session_id']
     file_id=params['file_id']
-    filename =  'session.' + str(session_id) + '.file.' + str(file_id) + 'rec' + '.wav'
-    pfilename = 'session.' + str(session_id) + '.file.' + str(file_id)  + 'todo' + '.json'
+    filename =  'session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
+    pfilename = 'session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
     pfile = StringIO.StringIO(params)
 
     files = {'rec': (filename, file), 'param': (pfilename,pfile)}

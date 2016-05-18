@@ -35,10 +35,11 @@ def index():
 
 @app.route('/test')
 def test():
-    print "**************"
-    print "testing: 456!!"
-    print "**************"
-    return "456"
+    mver='101'
+    print "*******************"
+    print "testing, ver: " + mver
+    print "*******************"
+    return mver
 
 # @app.route('/stims/<path:path>')
 # def send_js(path):
@@ -92,11 +93,18 @@ def anal():
         rfile = request.files['rec']
         pfile = request.files['param']
         opfname=pfile.filename
+        orfname=rfile.filename
 
         pfname=os.path.join(app.config['UPLOAD_FOLDER'], opfname)
         print "pfname:" + pfname
         pfile.save(pfname)
         print "saved in: " + pfname
+        return Response("dumps({'pfname': pfname})", status=200, mimetype='application/json')
+
+        rfname=os.path.join(app.config['UPLOAD_FOLDER'], orfname)
+        print "rfname:" + rfname
+        pfile.save(rfname)
+        print "saved in: " + rfname
         return Response("dumps({'pfname': pfname})", status=200, mimetype='application/json')
 
 
