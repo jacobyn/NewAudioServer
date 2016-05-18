@@ -14,6 +14,11 @@ import shutil
 import socket
 import StringIO
 
+IS_MAC=False
+
+
+
+
 aver='MA1'
 
 # Initialize the Flask application
@@ -41,7 +46,7 @@ def send_do(file, params):
     sver=params['ver']
     rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
     pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
-    mlogfilename = "res/" + sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
+    mlogfilename = '/XXXXXX' + sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
 
     matlab_cmd= 'matlab -nodisplay -nodesktop -nosplash -nojvm -r "MA_Mwraper(\'' + pfilename +  "\'); exit\" > " + mlogfilename
 
