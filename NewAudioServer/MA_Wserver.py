@@ -27,11 +27,10 @@ url='http://audio.norijacoby.com/analyze'
 def send_analyze(file):
      mscript='AudioInfo'
      session_id=str(random.randint(1000,10000))
-     myrnd=random.randint(1000,10000)
-     tfname='fileToUpload' +str(myrnd)
+     file_id=random.randint(1000,10000)
      return_route='AnalyzeReady'
 
-     params={'mscript':mscript, 'session_id':session_id, 'file_id': myrnd, 'upFileName': tfname, 'return_route': return_route,'ver':aver }
+     params={'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':aver }
 
 
      return send_do(file, params)
@@ -40,11 +39,18 @@ def send_do(file, params):
     session_id=params['session_id']
     file_id=params['file_id']
     sver=params['ver']
-    filename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
+    rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
     pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
-    pfile = StringIO.StringIO(params)
+    #mlogfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.json'
 
-    files = {'rec': (filename, file), 'param': (pfilename,pfile)}
+    params['rfilename']=rfilename
+    params['pfilename']=pfilename
+    #params['mlogfilename']=pfilename
+
+
+    pfile = StringIO.StringIO(dumps(params))
+
+    files = {'rec': (rfilename, file), 'param': (pfilename,pfile)}
     r = requests.post(url, files=files)
     pfile.close()
     print r.text

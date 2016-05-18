@@ -17,8 +17,9 @@ if IS_MAC:
     app.config['UPLOAD_FOLDER'] = 'res/'
     matlab_cmd="/Applications/MATLAB_R2014b.app/bin/matlab"
 else:
-    app.config['UPLOAD_FOLDER'] = '/var/www/NewAudioServer/NewAudioServer/res/'
+    app.config['UPLOAD_FOLDER'] = '/var/www/NewAudioServer/NewAudioServer/res/' ######### THIS DIRECTORY IS DIRABLE YOU NEED TO EVENTUALLY NOT ALLOW DIRRING
     matlab_cmd='matlab'
+
 
 #'/tmp/'
 
@@ -35,7 +36,7 @@ def index():
 
 @app.route('/test')
 def test():
-    mver='102'
+    mver='103'
     print "*******************"
     print "testing, ver: " + mver
     print "*******************"
@@ -95,15 +96,17 @@ def anal():
         opfname=pfile.filename
         orfname=rfile.filename
 
+        rfname=os.path.join(app.config['UPLOAD_FOLDER'], orfname)
+        print "rfname:" + rfname
+        rfile.save(rfname)
+        print "saved in: " + rfname
+
         pfname=os.path.join(app.config['UPLOAD_FOLDER'], opfname)
         print "pfname:" + pfname
         pfile.save(pfname)
         print "saved in: " + pfname
 
-        rfname=os.path.join(app.config['UPLOAD_FOLDER'], orfname)
-        print "rfname:" + rfname
-        rfile.save(rfname)
-        print "saved in: " + rfname
+
         return Response(dumps({'pfname': opfname}), status=200, mimetype='application/json')
 
 
