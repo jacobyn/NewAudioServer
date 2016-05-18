@@ -14,10 +14,10 @@ app = Flask(__name__)
 
 # This is the path to the upload directory
 if IS_MAC:
-    app.config['UPLOAD_FOLDER'] = 'uploads/'
+    app.config['UPLOAD_FOLDER'] = 'res/'
     matlab_cmd="/Applications/MATLAB_R2014b.app/bin/matlab"
 else:
-    app.config['UPLOAD_FOLDER'] = '/var/www/NewAudioServer/NewAudioServer/uploads/'
+    app.config['UPLOAD_FOLDER'] = '/var/www/NewAudioServer/NewAudioServer/res/'
     matlab_cmd='matlab'
 
 #'/tmp/'
@@ -104,7 +104,7 @@ def anal():
         print "rfname:" + rfname
         rfile.save(rfname)
         print "saved in: " + rfname
-        return Response(dumps({'pfname': pfname}), status=200, mimetype='application/json')
+        return Response(dumps({'pfname': opfname}), status=200, mimetype='application/json')
 
 
         # #f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
