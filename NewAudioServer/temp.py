@@ -7,7 +7,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, Blueprint, Response, request, render_template
 from werkzeug import secure_filename
 import random
-from json import dumps
+import json
 import os
 import requests
 
@@ -30,7 +30,7 @@ def getAudioFileName():
     #print("here...")
     filename='http://audio.norijacoby.com/stims/stim1.ogg'
     print ("got a get request returning filename: " + filename)
-    out= dumps({"fname": filename})
+    out= json.dumps({"fname": filename})
     print out
     return Response(out, status=200, mimetype='application/json')
 

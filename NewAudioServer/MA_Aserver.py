@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, Blueprint, Response, request, render_template
 from werkzeug import secure_filename
 import random
-from json import dumps
+import json
 import os
 import requests
 import shutil
@@ -81,7 +81,7 @@ def test():
 #         print cmd
 #         os.system(cmd)
 
-#         return Response(dumps({'filename': filename, 'cmd': cmd}), status=200, mimetype='application/json')
+#         return Response(json.dumps({'filename': filename, 'cmd': cmd}), status=200, mimetype='application/json')
 
 
 @app.route('/analyze', methods = ['POST'])
@@ -106,8 +106,11 @@ def anal():
         pfile.save(pfname)
         print "saved in: " + pfname
 
+        params=json.load(pfname)
+        print params
 
-        return Response(dumps({'pfname': opfname}), status=200, mimetype='application/json')
+
+        return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
 
 
         # #f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
@@ -136,7 +139,7 @@ def anal():
         # print cmd
         # os.system(cmd)
 
-        # return Response(dumps({'filename': filename, 'cmd': cmd}), status=200, mimetype='application/json')
+        # return Response(json.dumps({'filename': filename, 'cmd': cmd}), status=200, mimetype='application/json')
 
 if __name__ == '__main__':
    app.run()
@@ -151,7 +154,7 @@ if __name__ == '__main__':
 #         temp_fname='stam.wav'
 #         file.save(temp_fname)
 
-#         return Response(dumps({'filename': filename}), status=200, mimetype='application/json')
+#         return Response(json.dumps({'filename': filename}), status=200, mimetype='application/json')
 
 # How to do send
 # import requests
