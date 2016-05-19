@@ -98,7 +98,7 @@ def clear_res_dir():
 def boo():
     return "boo2!"
 
-@app.route("/boo/<int:is_sucess>/<str:pfile>", methods=["GET"])
+@app.route("/boo/<int:is_sucess>/<pfile>", methods=["GET"])
 def get_is_practice(is_sucess,pfile):
     data = {"aaa":"boo", "status": "success", "is_sucess": int(is_sucess), "pfile": pfile}
     return Response(json.dumps(data), status=200, mimetype='application/json')
