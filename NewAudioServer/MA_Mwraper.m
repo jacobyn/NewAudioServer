@@ -29,5 +29,17 @@ assert(length(temp)==1)
 
 % create command
 cmd=sprintf('%s (''%s'')', mscript,rec_fname);
-rfname=eval(cmd);
-is_sucess=true;
+try 
+    rfname=eval(cmd)
+    is_sucess=true;
+    
+catch 
+    is_sucess=false;
+    msgText = getReport(ME);
+    fprintf('ERORR(NORI):%s\n',msgText);
+end
+
+rcmd=sprintf('DYLD_LIBRARY_PATH=\"\";curl %s%d/%s', return_route,is_sucess,pfname);
+unix(rcmd)
+
+
