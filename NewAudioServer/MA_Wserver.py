@@ -50,7 +50,7 @@ def send_do(file, params):
     params['pfilename']=pfilename
     #params['matlab_cmd']=matlab_cmd
     params['mlogfilename']=mlogfilename
-    print matlab_cmd
+    #print matlab_cmd
 
     #params['mlogfilename']=pfilename
 

@@ -85,11 +85,11 @@ def test():
 
 #         return Response(json.dumps({'filename': filename, 'cmd': cmd}), status=200, mimetype='application/json')
 
-@app.route('/clear', methods = ['POST'])
+@app.route('/clear')
 def clear_res_dir():
     cmd='cd /var/www/NewAudioServer/NewAudioServer/res/;rm M*.wav; rm M*.txt; rm M*.mat; rm M*.json'
     os.system(cmd)
-
+    return "CLEARED!"
 
 
 @app.route('/analyze', methods = ['POST'])
