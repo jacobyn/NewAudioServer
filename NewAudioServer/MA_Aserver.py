@@ -85,6 +85,12 @@ def test():
 
 #         return Response(json.dumps({'filename': filename, 'cmd': cmd}), status=200, mimetype='application/json')
 
+@app.route('/clear', methods = ['POST'])
+def clear_res_dir():
+    cmd='cd /var/www/NewAudioServer/NewAudioServer/res/;rm M*.wav; rm M*.txt; rm M*.mat; rm M*.json'
+    os.system(cmd)
+
+
 
 @app.route('/analyze', methods = ['POST'])
 def anal():
@@ -117,9 +123,11 @@ def anal():
         print params
 
 
-
-        matlab_cmd=params['matlab_cmd']
+        mlogfilename=params['mlogfilename']
+        pfilename=params['pfilename']
+        matlab_cmd= '/usr/local/bin/matlab -nodisplay -nodesktop -nosplash -nojvm -r "MA_Mwraper(\'' + pfilename +  "\'); exit\" > " + mlogfilename
         matlab_cmd= matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
+
 #        matlab_cmd= matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
 
         #matlab_cmd= matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
@@ -127,7 +135,8 @@ def anal():
         #matlab_cmd=os.path.join(app.config['UPLOAD_FOLDER'], matlab_cmd)
 
 
-
+        # create a script shell and run it
+        #######################################
         session_id=params['session_id']
         file_id=params['file_id']
         sver=params['ver']
@@ -147,7 +156,8 @@ def anal():
 
         print "matlab_cmd= {}".format(matlab_cmd)
 
-        os.system("sudo su - root " + rfname)
+        os.system("sudo su - root " + rfname + " & ")
+        ##########################################  end of script shell creating
 
         return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
 

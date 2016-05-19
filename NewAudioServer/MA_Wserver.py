@@ -17,22 +17,19 @@ import StringIO
 IS_MAC=False
 
 
-
-
 aver='MA1'
 
 # Initialize the Flask application
 app = Flask(__name__)
 
-# This is the path to the upload directory
-app.config['UPLOAD_FOLDER'] = 'uploads/'
+
 
 url='http://audio.norijacoby.com/analyze'
 
 def send_analyze(file):
      mscript='AudioInfo'
      session_id=str(random.randint(1000,10000))
-     file_id=random.randint(1000,10000)
+     file_id=str(random.randint(1000,10000))
      return_route='AnalyzeReady'
 
      params={'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':aver }
@@ -48,11 +45,11 @@ def send_do(file, params):
     pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
     mlogfilename = 'XXXXXX/' + sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
 
-    matlab_cmd= '/usr/local/bin/matlab -nodisplay -nodesktop -nosplash -nojvm -r "MA_Mwraper(\'' + pfilename +  "\'); exit\" > " + mlogfilename
 
     params['rfilename']=rfilename
     params['pfilename']=pfilename
-    params['matlab_cmd']=matlab_cmd
+    #params['matlab_cmd']=matlab_cmd
+    params['mlogfilename']=mlogfilename
     print matlab_cmd
 
     #params['mlogfilename']=pfilename

@@ -19,6 +19,42 @@ function load_play_record_stim() {
 
 
 }
+// function encode_mp3_mono (oblob) {
+//   var samples;
+//   var fileReader = new FileReader();
+//   fileReader.onload = function() {
+//       samples = this.result;
+//   };
+//   fileReader.readAsArrayBuffer(oblob);
+
+//   channels = 1; //1 for mono or 2 for stereo
+//   sampleRate = 44100; //44.1khz (normal mp3 samplerate)
+//   kbps = 128; //encode 128kbps mp3
+//   mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+//   var mp3Data = [];
+
+//   //samples = new Int16Array(44100); //one second of silence (get your data from the source you have)
+//   sampleBlockSize = 1152; //can be anything but make it a multiple of 576 to make encoders life easier
+
+//   var mp3Data = [];
+//   for (var i = 0; i < samples.length; i += sampleBlockSize) {
+//     sampleChunk = samples.subarray(i, i + sampleBlockSize);
+//     var mp3buf = mp3encoder.encodeBuffer(sampleChunk);
+//     if (mp3buf.length > 0) {
+//         mp3Data.push(mp3buf);
+//     }
+//   }
+//   var mp3buf = mp3encoder.flush();   //finish writing mp3
+
+//   if (mp3buf.length > 0) {
+//       mp3Data.push(new Int8Array(mp3buf));
+//   }
+
+//   var blob = new Blob(mp3Data, {type: 'audio/mp3'});
+//   console.log('MP3 URl: ', url);
+
+//   return blob
+// }
 
 function getAudioFileName_andPlayRecordUpload() {
  recorder.clear()
@@ -100,8 +136,10 @@ function upload_audio() {
 __log('trying to upload audio...');
 recorder && recorder.exportWAV(function(blob) {
         var formData = new FormData();
-        formData.append("file", blob);
+        //nblob=encode_mp3_mono (oblob)
 
+
+        formData.append("file", blob);
 
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
@@ -116,23 +154,6 @@ recorder && recorder.exportWAV(function(blob) {
 
 
 
-// function make_downloadable_link() {
-//   __log('link...');
-//   recorder && recorder.exportWAV(function(blob) {
-//     var url = URL.createObjectURL(blob);
-//     var li = document.createElement('li');
-//     var au = document.createElement('audio');
-//     var hf = document.createElement('a');
-//     au.controls = true;
-//     au.src = url;
-//     hf.href = url;
-//     hf.download = new Date().toISOString() + '.wav';
-//     hf.innerHTML = hf.download;
-//     li.appendChild(au);
-//     li.appendChild(hf);
-//     recordingslist.appendChild(li);
-//   });
-// }
 
 window.onload = function init() {
   __log('starting...');
