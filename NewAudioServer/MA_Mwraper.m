@@ -44,7 +44,11 @@ if ismac
     cmsg='curl';
 end
 
+
 rcmd=sprintf('DYLD_LIBRARY_PATH=\"\";%s %s%d/%s', cmsg,return_route,is_sucess,pfname);
 unix(rcmd)
+
+wcmd=sprintf('%s%d/%s',return_route,is_sucess,pfname);
+webread(wcmd)
 
 
