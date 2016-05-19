@@ -89,7 +89,19 @@ def test():
 def clear_res_dir():
     cmd='cd /var/www/NewAudioServer/NewAudioServer/res/;rm M*.wav; rm M*.txt; rm M*.mat; rm M*.json'
     os.system(cmd)
+    cmd='cd /var/www/NewAudioServer/NewAudioServer/run/;rm M*.sh'
+    os.system(cmd)
     return "CLEARED!"
+
+
+@app.route('/boo2')
+def boo():
+    return "boo2!"
+
+@app.route("/boo/<int:is_sucess>/<str:pfile>", methods=["GET"])
+def get_is_practice(is_sucess,pfile):
+    data = {"aaa":"boo", "status": "success", "is_sucess": int(is_sucess), "pfile": pfile}
+    return Response(json.dumps(data), status=200, mimetype='application/json')
 
 
 @app.route('/analyze', methods = ['POST'])
@@ -124,14 +136,11 @@ def anal():
 
 
         mlogfilename=params['mlogfilename']
+        mlogfilename=os.path.join(app.config['UPLOAD_FOLDER'], mlogfilename)
+
         pfilename=params['pfilename']
         matlab_cmd= '/usr/local/bin/matlab -nodisplay -nodesktop -nosplash -nojvm -r "MA_Mwraper(\'' + pfilename +  "\'); exit\" > " + mlogfilename
-        matlab_cmd= matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
-
-#        matlab_cmd= matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
-
         #matlab_cmd= matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
-
         #matlab_cmd=os.path.join(app.config['UPLOAD_FOLDER'], matlab_cmd)
 
 
@@ -165,33 +174,7 @@ def anal():
         return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
 
 
-        # #f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
-        # file.save(tempfname)
-        # print "saved in " + tempfname
 
-        # #parse fname
-        # pfname=ofname.split(".")
-        # print pfname
-        # assert pfname[0]=='session'
-        # assert pfname[2]=='script'
-        # assert pfname[4]=='file'
-        # session_id=secure_filename(pfname[1])
-        # mscript=secure_filename(pfname[3])
-        # fname=secure_filename(pfname[5])
-
-        # filename ='BBB-' + session_id + '-' + mscript + '-' + fname + '-rnd-' + str(myrnd)+ '.wav'
-        # #filename ='uploadedxxx.wav'
-        # tempfname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        # print "tempfname:" + tempfname
-        # #f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
-        # file.save(tempfname)
-        # print "saved in " + tempfname
-
-        # cmd = matlab_cmd + " -nodisplay -nodesktop -nosplash -nojvm -r \"AudioInfo(\'" + tempfname + "\'); exit\" > temp.out &"
-        # print cmd
-        # os.system(cmd)
-
-        # return Response(json.dumps({'filename': filename, 'cmd': cmd}), status=200, mimetype='application/json')
 
 if __name__ == '__main__':
    app.run()
@@ -228,4 +211,34 @@ if __name__ == '__main__':
 #         print "saved in " + filename
 #         print file
 #         return "OK"
+
+
+
+     # #f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
+        # file.save(tempfname)
+        # print "saved in " + tempfname
+
+        # #parse fname
+        # pfname=ofname.split(".")
+        # print pfname
+        # assert pfname[0]=='session'
+        # assert pfname[2]=='script'
+        # assert pfname[4]=='file'
+        # session_id=secure_filename(pfname[1])
+        # mscript=secure_filename(pfname[3])
+        # fname=secure_filename(pfname[5])
+
+        # filename ='BBB-' + session_id + '-' + mscript + '-' + fname + '-rnd-' + str(myrnd)+ '.wav'
+        # #filename ='uploadedxxx.wav'
+        # tempfname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        # print "tempfname:" + tempfname
+        # #f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
+        # file.save(tempfname)
+        # print "saved in " + tempfname
+
+        # cmd = matlab_cmd + " -nodisplay -nodesktop -nosplash -nojvm -r \"AudioInfo(\'" + tempfname + "\'); exit\" > temp.out &"
+        # print cmd
+        # os.system(cmd)
+
+        # return Response(json.dumps({'filename': filename, 'cmd': cmd}), status=200, mimetype='application/json')
 

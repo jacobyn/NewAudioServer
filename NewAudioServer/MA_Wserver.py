@@ -30,7 +30,7 @@ def send_analyze(file):
      mscript='AudioInfo'
      session_id=str(random.randint(1000,10000))
      file_id=str(random.randint(1000,10000))
-     return_route='AnalyzeReady'
+     return_route='http://audio.norijacoby.com/boo'
 
      params={'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':aver }
 
@@ -43,7 +43,7 @@ def send_do(file, params):
     sver=params['ver']
     rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
     pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
-    mlogfilename = 'XXXXXX/' + sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
+    mlogfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
 
 
     params['rfilename']=rfilename
