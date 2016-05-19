@@ -39,7 +39,12 @@ catch
     fprintf('ERORR(NORI):%s\n',msgText);
 end
 
-rcmd=sprintf('DYLD_LIBRARY_PATH=\"\";curl %s%d/%s', return_route,is_sucess,pfname);
+cmsg='/usr/bin/curl';
+if ismac
+    cmsg='curl';
+end
+
+rcmd=sprintf('DYLD_LIBRARY_PATH=\"\";%s %s%d/%s', cmsg,return_route,is_sucess,pfname);
 unix(rcmd)
 
 
