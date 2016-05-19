@@ -158,6 +158,9 @@ def anal():
 
         os.system("sudo su - root " + rfname + " & ")
         ##########################################  end of script shell creating
+        print "*************************************************"
+        print "*** seems to be ok:\n *** running= {}\n *** rfname={} ".format(matlab_cmd,rfname)
+        print "**************************************************"
 
         return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
 
