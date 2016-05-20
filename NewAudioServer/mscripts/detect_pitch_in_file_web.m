@@ -11,11 +11,15 @@ addpath('~/ResearchMIT/toolboxes/SYNTH/');
 addpath('~/ResearchMIT/toolboxes/create_tap_stim/');
 addpath ('~/ResearchMIT/CBMM/CMMMproj/VSQR')
 
-
+fprintf('audio read...\n');
 [myaudio,fs]=audioread(fname);
+
+fprintf('audio : %3.3f sec\n trying to detect pitch\n',max(size(myaudio))/fs);
 
 ISPLOT=false;
 [fq,midi,start_stop]=detect_pitch_nori(myaudio,fs,ISPLOT);
+
+fprintf('done extracting pitch, pitch1 : %3.3f sec\n',fq(1));
 
 if isfield(P,'donefilename')
     rfname=sprintf('res/%s',P.donefilename);
