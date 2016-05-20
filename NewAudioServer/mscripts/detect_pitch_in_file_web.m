@@ -28,7 +28,7 @@ for I=1:length(fq)
     fprintf('note %2d\t\tfq= %4.1f\tmidi=%3.2f\tstart=%3.3f\tstop=%3.3f\n',I,fq(I),midi(I),start_stop(I,1),start_stop(I,2));
 end
 
-
+fprintf('saving pitch info to file: %s\n',rfname)
 FID=fopen(rfname,'w');
 P.fqs=fq;
 P.midis=midi;
@@ -37,3 +37,5 @@ P.stops=start_stop(:,2);
 json=savejson('',P);
 fprintf(FID,'%s\n',json);
 fclose(FID);
+fprintf('saving pitch to file: %s (SUCESS!)\n',rfname)
+
