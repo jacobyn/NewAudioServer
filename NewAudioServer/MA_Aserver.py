@@ -115,15 +115,11 @@ def anal():
 
             print request.method
 
-            print "HERE1"
+
             rfile = request.files['rec']
-            print "HERE2"
             pfile = request.files['param']
-            print "HERE3"
             opfname=pfile.filename
-            print "HERE4"
             orfname=rfile.filename
-            print "HERE5"
 
 
             rfname=os.path.join(app.config['UPLOAD_FOLDER'], orfname)

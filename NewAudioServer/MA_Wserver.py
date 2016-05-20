@@ -28,7 +28,7 @@ def create_pitch_stim(midi):
     print "try_to_create_pitch: " + str(midi)
 
     params=dict()
-    params.update( {'midi': 49, 'duration':4})
+    params.update( {'midi': midi, 'duration':2})
     DONE_EXT='ogg'
     wfile=None
 
@@ -74,9 +74,8 @@ def create_pitch_stim(midi):
     print('trying to send...')
     r = requests.post(url, files=files)
     pfile.close()
-    print r.text
-    print('OK response...')
-    return "OK: " + r.text
+    print('OK response... :' + r.text)
+    return r.text
 
 def send_analyze(wfile):
     params=dict()
@@ -110,8 +109,8 @@ def send_analyze(wfile):
     files = {'rec': (rfilename, wfile), 'param': (pfilename,pfile)}
     r = requests.post(url, files=files)
     pfile.close()
-    print r.text
-    return "OK: " + r.text
+    print "OK response: " + r.text
+    return r.text
 
 # This route will show a form to perform an AJAX request
 # jQuery is loaded to execute the request and update the

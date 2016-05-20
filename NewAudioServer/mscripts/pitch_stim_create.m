@@ -34,10 +34,11 @@ begsilence=0.1;
 
 CLICKS=1;%%%%midi=48;
 midiS=ones(1,CLICKS)*midi;
-[out1,~]=SYNTH_simple2sound(midiS,500,120,500,1,Ps,SYNTH,fs);
+[out1,~]=SYNTH_simple2sound(midiS,1000,100,1000,1,Ps,SYNTH,fs);
 out=zeros(round(duration*fs),1);
 out(1:length(out1))=out1;
 out=[zeros(round(fs*begsilence),1);out];
+out=out/0.5;
 fprintf('saving stim info to file: %s\n',rfname)
 audiowrite(rfname,out,fs);
 fprintf('saving stim to file: %s (SUCESS!)\n',rfname)
