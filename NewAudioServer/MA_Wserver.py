@@ -13,6 +13,7 @@ import requests
 import shutil
 import socket
 import StringIO
+import urllib2
 
 IS_MAC=False
 
@@ -22,7 +23,7 @@ aver='MA1'
 # Initialize the Flask application
 app = Flask(__name__)
 
-
+burl_res='http://audio.norijacoby.com/res/'
 
 def create_pitch_stim(midi):
     print "try_to_create_pitch: " + str(midi)
@@ -49,7 +50,7 @@ def create_pitch_stim(midi):
 
 def send_analyze(wfile):
     params=dict()
-    done_ext='txt'
+    done_ext='html'
 
     url='http://audio.norijacoby.com/analyze'
     mscript='detect_pitch_in_file_web'
@@ -160,6 +161,22 @@ def createpitch_route(midi):
     except Exception as e:
         print(e)
     return Response(data, status=200, mimetype='application/json')
+
+
+@app.route("/get_results_file/<rfile>", methods = ['GET'])
+def get_results_file_route(rfile):
+    murl=burl_res+rfile
+    print "trying to get result file: " + murl
+    try:
+
+        data = requests.get(murl)
+        print "read_data"
+        print data
+    except Exception as e:
+        print(e)
+    return Response(data.text, status=200, mimetype='application/html')
+
+
 
 
 if __name__ == '__main__':
