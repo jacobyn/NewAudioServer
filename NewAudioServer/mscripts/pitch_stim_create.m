@@ -38,6 +38,8 @@ midiS=ones(1,CLICKS)*midi;
 out=zeros(round(duration*fs),1);
 out(1:length(out1))=out1;
 out=[zeros(round(fs*begsilence),1);out];
+fprintf('saving stim info to file: %s\n',rfname)
 audiowrite(rfname,out,fs);
+fprintf('saving stim to file: %s (SUCESS!)\n',rfname)
 
 end
