@@ -1,4 +1,4 @@
-function tfname=AudioInfo(ofname)
+function tfname=AudioInfo(ofname,P)
 %%% nohup matlab -nodisplay -nodesktop -nosplash /r "fname=''BBB-MatlabAnal-fileToUpload5748-rnd-5107.wav''AudioInfo()"  >&  FILENAME.m.out &
 %%% nohup matlab -nodisplay -nodesktop -nosplash -nojvm -r "AudioInfo('uploads/BBB-MatlabAnal-fileToUpload5748-rnd-5107.wav'); exit" > temp.out
 %%% matlab /r myscript

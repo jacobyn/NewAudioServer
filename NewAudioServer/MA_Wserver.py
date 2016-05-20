@@ -24,35 +24,74 @@ app = Flask(__name__)
 
 
 
-url='http://audio.norijacoby.com/analyze'
+def create_pitch_stim(midi):
+    params=dict()
+    params.update( {'midi': 49, 'duration':4})
+    file=None
 
-def send_analyze(file):
-     mscript='AudioInfo'
-     session_id=str(random.randint(1000,10000))
-     file_id=str(random.randint(1000,10000))
-     return_route='http://audio.norijacoby.com/boo'
+    url='http://audio.norijacoby.com/analyze'
+    mscript='pitch_stim_create'
+    session_id=str(random.randint(1000,10000))
+    file_id=str(random.randint(1000,10000))
+    return_route='http://audio.norijacoby.com/boo' #the url should have the following form http:/xxx/boo/is_sucess/done-fname
+    aver=sver
 
-     params={'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':aver }
+    params.update({'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':aver })
 
-
-     return send_do(file, params)
-
-def send_do(file, params):
-    session_id=params['session_id']
-    file_id=params['file_id']
-    sver=params['ver']
     rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
     pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
     mlogfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
+    donefilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.done' + '.txt'
 
 
     params['rfilename']=rfilename
     params['pfilename']=pfilename
     #params['matlab_cmd']=matlab_cmd
     params['mlogfilename']=mlogfilename
+    params['donefilename']=donefilename
+
     #print matlab_cmd
 
     #params['mlogfilename']=pfilename
+
+
+    pfile = StringIO.StringIO(dumps(params))
+
+    # if fileNone is None:
+    #     files = {'rec': (rfilename, file), 'param': (pfilename,pfile)}
+    # else:
+    #     files = {'rec': (rfilename, file), 'param': (pfilename,pfile)}
+
+
+    r = requests.post(url, files=files)
+    pfile.close()
+    print r.text
+    return "OK: " + r.text
+
+def send_analyze(file):
+    params=dict()
+
+    url='http://audio.norijacoby.com/analyze'
+    mscript='myAudioInfo'
+    session_id=str(random.randint(1000,10000))
+    file_id=str(random.randint(1000,10000))
+    return_route='http://audio.norijacoby.com/boo' #the url should have the following form http:/xxx/boo/is_sucess/done-fname
+    aver=sver
+
+    params.update({'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':aver })
+
+    rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
+    pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
+    mlogfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
+    donefilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.done' + '.txt'
+
+
+    params['rfilename']=rfilename
+    params['pfilename']=pfilename
+    #params['matlab_cmd']=matlab_cmd
+    params['mlogfilename']=mlogfilename
+    params['donefilename']=donefilename
+
 
 
     pfile = StringIO.StringIO(dumps(params))
@@ -79,7 +118,7 @@ def index():
 #     return domain
 
 @app.route('/getAudioFileName', methods = ['GET'])
-def getAudioFileName():
+def getAudioFileName_route():
     #print("here...")
     filename='http://audio.norijacoby.com/stims/stim1.ogg'
     print ("got a get request returning filename: " + filename)
@@ -89,7 +128,7 @@ def getAudioFileName():
 
 
 @app.route('/upload', methods = ['POST'])
-def upldfile():
+def upload_route():
     try:
         if request.method == 'POST':
             file = request.files['file']
@@ -98,8 +137,17 @@ def upldfile():
     except Exception as e:
         print(e)
 
+@app.route("/createpitch/<int:midi>", methods = ['GET'])
+def createpitch_route(midi):
+    data=reate_pitch_stim(midi)
+    return Response(json.dumps(data), status=200, mimetype='application/json')
+
+
 if __name__ == '__main__':
    app.run()
+
+
+
 
 # @app.route('/upload', methods = ['POST'])
 # def upldfile():
