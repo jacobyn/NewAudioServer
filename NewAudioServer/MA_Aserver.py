@@ -103,6 +103,11 @@ def get_is_practice(is_sucess,pfile):
     data = {"aaa":"boo", "status": "success", "is_sucess": int(is_sucess), "pfile": pfile}
     return Response(json.dumps(data), status=200, mimetype='application/json')
 
+@app.route("/set_analysis_response/<int:is_sucess>/<pfile>", methods=["GET"])
+def get_is_practice(is_sucess,pfile):
+    data = {"aaa":"anal", "status": "success", "is_sucess": int(is_sucess), "pfile": pfile}
+    return Response(json.dumps(data), status=200, mimetype='application/json')
+
 
 @app.route('/analyze', methods = ['POST'])
 def anal():

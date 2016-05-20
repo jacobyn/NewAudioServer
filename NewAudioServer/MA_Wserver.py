@@ -29,7 +29,7 @@ def create_pitch_stim(midi):
 
     params=dict()
     params.update( {'midi': midi, 'duration':2})
-    DONE_EXT='ogg'
+    done_ext='ogg'
     wfile=None
 
     url='http://audio.norijacoby.com/analyze'
@@ -41,12 +41,44 @@ def create_pitch_stim(midi):
     sver=aver
 
 
-    params.update({'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':sver })
+    params.update({'url':url, 'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':sver, 'done_ext':'ogg' })
+    print params
+    return do_analyze(wfile,params)
 
+
+
+def send_analyze(wfile):
+    params=dict()
+    done_ext='txt'
+
+    url='http://audio.norijacoby.com/analyze'
+    mscript='detect_pitch_in_file_web'
+    session_id=str(random.randint(1000,10000))
+    file_id=str(random.randint(1000,10000))
+    return_route='http://audio.norijacoby.com/set_analysis_response' #the url should have the following form http:/xxx/boo/is_sucess/done-fname
+    sver=aver
+
+    params.update({'url':url,'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':sver, 'done_ext':done_ext})
+
+    return do_analyze(wfile,params)
+
+
+def do_analyze(wfile, params):
+
+    print "reading params..."
+    sver=params['ver']
+    session_id=params['session_id']
+    file_id=params['file_id']
+    print "HERE3"
+    done_ext=params['done_ext']
+    url=params['url']
+
+
+    print "setting params..."
     rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
     pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
     mlogfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
-    donefilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.done.' + DONE_EXT
+    donefilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.done.' + done_ext
 
 
     params['rfilename']=rfilename
@@ -59,6 +91,7 @@ def create_pitch_stim(midi):
 
     #params['mlogfilename']=pfilename
 
+    print "preparing files..."
 
     pfile = StringIO.StringIO(dumps(params))
     if wfile is None:
@@ -77,40 +110,8 @@ def create_pitch_stim(midi):
     print('OK response... :' + r.text)
     return r.text
 
-def send_analyze(wfile):
-    params=dict()
-    DONE_EXT='txt'
-
-    url='http://audio.norijacoby.com/analyze'
-    mscript='myAudioInfo'
-    session_id=str(random.randint(1000,10000))
-    file_id=str(random.randint(1000,10000))
-    return_route='http://audio.norijacoby.com/boo' #the url should have the following form http:/xxx/boo/is_sucess/done-fname
-    sver=aver
-
-    params.update({'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':sver })
-
-    rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
-    pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
-    mlogfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
-    donefilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.done.' + DONE_EXT
 
 
-    params['rfilename']=rfilename
-    params['pfilename']=pfilename
-    #params['matlab_cmd']=matlab_cmd
-    params['mlogfilename']=mlogfilename
-    params['donefilename']=donefilename
-
-    pfile = StringIO.StringIO(dumps(params))
-    if wfile is None:
-        wfile = StringIO.StringIO("<empty>")
-
-    files = {'rec': (rfilename, wfile), 'param': (pfilename,pfile)}
-    r = requests.post(url, files=files)
-    pfile.close()
-    print "OK response: " + r.text
-    return r.text
 
 # This route will show a form to perform an AJAX request
 # jQuery is loaded to execute the request and update the
