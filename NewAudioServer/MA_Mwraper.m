@@ -37,7 +37,7 @@ is_sucess=false; % life is hard...
 
 fprintf('MWrap: security check...\n');
 %make sure (security) that there is a script of this sort here
-script=sprintf('%s.m',mscript);
+script=sprintf('mscripts/%s.m',mscript);
 temp=dir(script);
 assert(length(temp)==1)
 
