@@ -29,7 +29,7 @@ def create_pitch_stim(midi):
 
     params=dict()
     params.update( {'midi': 49, 'duration':4})
-    files=None
+    wfile=None
 
     url='http://audio.norijacoby.com/analyze'
     mscript='pitch_stim_create'
@@ -58,11 +58,15 @@ def create_pitch_stim(midi):
 
 
     pfile = StringIO.StringIO(dumps(params))
+    if wfile is None:
+        wfile = StringIO.StringIO("<empty>")
 
     # if fileNone is None:
     #     files = {'rec': (rfilename, file), 'param': (pfilename,pfile)}
     # else:
     #     files = {'rec': (rfilename, file), 'param': (pfilename,pfile)}
+
+    files = {'rec': (rfilename, wfile), 'param': (pfilename,pfile)}
 
     print('trying to send...')
     r = requests.post(url, files=files)
@@ -71,7 +75,7 @@ def create_pitch_stim(midi):
     print('OK response...')
     return "OK: " + r.text
 
-def send_analyze(files):
+def send_analyze(wfile):
     params=dict()
 
     url='http://audio.norijacoby.com/analyze'
@@ -95,9 +99,9 @@ def send_analyze(files):
     params['mlogfilename']=mlogfilename
     params['donefilename']=donefilename
 
-
-
     pfile = StringIO.StringIO(dumps(params))
+    if wfile is None:
+        wfile = StringIO.StringIO("<empty>")
 
     files = {'rec': (rfilename, file), 'param': (pfilename,pfile)}
     r = requests.post(url, files=files)

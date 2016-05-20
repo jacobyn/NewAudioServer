@@ -121,11 +121,8 @@ def anal():
 
             rfname=os.path.join(app.config['UPLOAD_FOLDER'], orfname)
             print "rfname:" + rfname
-            if rfile is None:
-                print "file empty, do not save!"
-            else:
-                rfile.save(rfname)
-                print "saved in: " + rfname
+            rfile.save(rfname)
+            print "saved in: " + rfname
 
             pfname=os.path.join(app.config['UPLOAD_FOLDER'], opfname)
 
