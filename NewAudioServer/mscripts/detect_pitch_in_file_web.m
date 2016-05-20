@@ -17,7 +17,7 @@ fprintf('audio read...\n');
 fprintf('audio : %3.3f sec\n trying to detect pitch\n',max(size(myaudio))/fs);
 
 ISPLOT=false;
-[fq,midi,start_stop]=detect_pitch_nori(myaudio,fs,ISPLOT);
+[fq,midi,start_stop]=detect_pitch_nori_yinonly(myaudio,fs,ISPLOT);
 
 fprintf('done extracting pitch, pitch1 : %3.3f sec\n',fq(1));
 
