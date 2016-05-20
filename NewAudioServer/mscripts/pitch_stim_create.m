@@ -13,7 +13,7 @@ else
     end
 end
 
-fprintf('trying to analyze pitch with filename: %s',rfname);
+fprintf('trying to analyze pitch with filename: %s\n',rfname);
 
 addpath('~/ResearchMIT/CBMM/CMMMproj/PITCH/')
 addpath('~/ResearchMIT/toolboxes/Sound_Texture_Synthesis_Toolbox/');
