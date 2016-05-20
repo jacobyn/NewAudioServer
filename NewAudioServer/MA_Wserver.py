@@ -29,6 +29,7 @@ def create_pitch_stim(midi):
 
     params=dict()
     params.update( {'midi': 49, 'duration':4})
+    DONE_EXT='ogg'
     wfile=None
 
     url='http://audio.norijacoby.com/analyze'
@@ -38,12 +39,13 @@ def create_pitch_stim(midi):
     return_route='http://audio.norijacoby.com/boo' #the url should have the following form http:/xxx/boo/is_sucess/done-fname
     sver=aver
 
+
     params.update({'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':sver })
 
     rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
     pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
     mlogfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
-    donefilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.done' + '.txt'
+    donefilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.done.' + DONE_EXT
 
 
     params['rfilename']=rfilename
@@ -77,6 +79,7 @@ def create_pitch_stim(midi):
 
 def send_analyze(wfile):
     params=dict()
+    DONE_EXT='txt'
 
     url='http://audio.norijacoby.com/analyze'
     mscript='myAudioInfo'
@@ -90,7 +93,7 @@ def send_analyze(wfile):
     rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
     pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
     mlogfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
-    donefilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.done' + '.txt'
+    donefilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.done.' + DONE_EXT
 
 
     params['rfilename']=rfilename

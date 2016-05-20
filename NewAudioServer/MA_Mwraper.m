@@ -44,16 +44,16 @@ assert(length(temp)==1)
 fprintf('MWrap: run command...\n');
 % create command
 cmd=sprintf('%s (''%s'', P)', mscript,rec_fname);
-fprintf('trying to run command: %s\n',cmd)
+fprintf('MWrap: trying to run command: %s\n',cmd)
 try 
     ofname=eval(cmd); % output (response analyzed) filename (this is where the analysis data can be found)
     is_sucess=true;
-    
+    fprintf('MWrap: tried and it worked!');
 catch ME
     is_sucess=false;
     ofname=pfile;
     msgText = getReport(ME);
-    fprintf('ERORR(NORI):%s\n',msgText);
+    fprintf('MWrap: ERORR(NORI):%s\n',msgText);
 end
 
 fprintf('MWrap: ping final route...\n');
