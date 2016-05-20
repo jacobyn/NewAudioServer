@@ -106,77 +106,82 @@ def get_is_practice(is_sucess,pfile):
 
 @app.route('/analyze', methods = ['POST'])
 def anal():
-    myrnd=random.randint(1000,10000)
 
-    print "trying to process POST rq."
-    if request.method == 'POST':
-        print request.method
-        rfile = request.files['rec']
-        pfile = request.files['param']
-        opfname=pfile.filename
-        orfname=rfile.filename
+    try:
+        myrnd=random.randint(1000,10000)
 
-        rfname=os.path.join(app.config['UPLOAD_FOLDER'], orfname)
-        print "rfname:" + rfname
-        if rfile is None:
-            print "file empty, do not save!"
-        else:
-            rfile.save(rfname)
-            print "saved in: " + rfname
+        print "trying to process POST rq."
+        if request.method == 'POST':
 
-        pfname=os.path.join(app.config['UPLOAD_FOLDER'], opfname)
+            print request.method
+            rfile = request.files['rec']
+            pfile = request.files['param']
+            opfname=pfile.filename
+            orfname=rfile.filename
 
-        resdir=app.config['UPLOAD_FOLDER']
+            rfname=os.path.join(app.config['UPLOAD_FOLDER'], orfname)
+            print "rfname:" + rfname
+            if rfile is None:
+                print "file empty, do not save!"
+            else:
+                rfile.save(rfname)
+                print "saved in: " + rfname
 
-        print "pfname:" + pfname
-        pfile.save(pfname)
-        print "saved in: " + pfname
+            pfname=os.path.join(app.config['UPLOAD_FOLDER'], opfname)
 
-        print 'read paramters...'
-        pf=open(pfname,'r')
-        params=json.load(pf)
-        print params
+            resdir=app.config['UPLOAD_FOLDER']
 
+            print "pfname:" + pfname
+            pfile.save(pfname)
+            print "saved in: " + pfname
 
-        mlogfilename=params['mlogfilename']
-        mlogfilename=os.path.join(app.config['UPLOAD_FOLDER'], mlogfilename)
-
-        pfilename=params['pfilename']
-        matlab_cmd= '/usr/local/bin/matlab -nodisplay -nodesktop -nosplash -nojvm -r "MA_Mwraper(\'' + pfilename +  "\'); exit\" > " + mlogfilename
-        #matlab_cmd= matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
-        #matlab_cmd=os.path.join(app.config['UPLOAD_FOLDER'], matlab_cmd)
+            print 'read paramters...'
+            pf=open(pfname,'r')
+            params=json.load(pf)
+            print params
 
 
-        # create a script shell and run it
-        #######################################
-        session_id=params['session_id']
-        file_id=params['file_id']
-        sver=params['ver']
+            mlogfilename=params['mlogfilename']
+            mlogfilename=os.path.join(app.config['UPLOAD_FOLDER'], mlogfilename)
 
-        rfname =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.run.sh'
-        rfname=os.path.join(app.config['RUN_FOLDER'],rfname)
-
-        print "rfname:{}".format(rfname)
-
-        with open(rfname, "w") as text_file:
-             text_file.write("#!/bin/bash\n cd /var/www/NewAudioServer/NewAudioServer\n" + matlab_cmd)
-        chmod_fname='chmod u+x ' +rfname
-
-        print "cfname:{}".format(chmod_fname)
-
-        os.system(chmod_fname)
-
-        print "matlab_cmd= {}".format(matlab_cmd)
-
-        os.system("sudo su - root " + rfname + " & ")
-        ##########################################  end of script shell creating
-        print "*************************************************"
-        print "*** seems to be ok:\n *** running= {}\n *** rfname={} ".format(matlab_cmd,rfname)
-        print "**************************************************"
-
-        return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
+            pfilename=params['pfilename']
+            matlab_cmd= '/usr/local/bin/matlab -nodisplay -nodesktop -nosplash -nojvm -r "MA_Mwraper(\'' + pfilename +  "\'); exit\" > " + mlogfilename
+            #matlab_cmd= matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
+            #matlab_cmd=os.path.join(app.config['UPLOAD_FOLDER'], matlab_cmd)
 
 
+            # create a script shell and run it
+            #######################################
+            session_id=params['session_id']
+            file_id=params['file_id']
+            sver=params['ver']
+
+            rfname =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.run.sh'
+            rfname=os.path.join(app.config['RUN_FOLDER'],rfname)
+
+            print "rfname:{}".format(rfname)
+
+            with open(rfname, "w") as text_file:
+                 text_file.write("#!/bin/bash\n cd /var/www/NewAudioServer/NewAudioServer\n" + matlab_cmd)
+            chmod_fname='chmod u+x ' +rfname
+
+            print "cfname:{}".format(chmod_fname)
+
+            os.system(chmod_fname)
+
+            print "matlab_cmd= {}".format(matlab_cmd)
+
+            os.system("sudo su - root " + rfname + " & ")
+            ##########################################  end of script shell creating
+            print "*************************************************"
+            print "*** seems to be ok:\n *** running= {}\n *** rfname={} ".format(matlab_cmd,rfname)
+            print "**************************************************"
+
+            return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
+
+    except Exception as e:
+        print(e)
+        return Response(str(e), status=400, mimetype='application/json')
 
 
 if __name__ == '__main__':

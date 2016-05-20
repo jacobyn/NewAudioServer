@@ -25,18 +25,20 @@ app = Flask(__name__)
 
 
 def create_pitch_stim(midi):
+    print "try_to_create_pitch: " + str(midi)
+
     params=dict()
     params.update( {'midi': 49, 'duration':4})
-    file=None
+    files=None
 
     url='http://audio.norijacoby.com/analyze'
     mscript='pitch_stim_create'
     session_id=str(random.randint(1000,10000))
     file_id=str(random.randint(1000,10000))
     return_route='http://audio.norijacoby.com/boo' #the url should have the following form http:/xxx/boo/is_sucess/done-fname
-    aver=sver
+    sver=aver
 
-    params.update({'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':aver })
+    params.update({'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':sver })
 
     rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
     pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
@@ -62,13 +64,14 @@ def create_pitch_stim(midi):
     # else:
     #     files = {'rec': (rfilename, file), 'param': (pfilename,pfile)}
 
-
+    print('trying to send...')
     r = requests.post(url, files=files)
     pfile.close()
     print r.text
+    print('OK response...')
     return "OK: " + r.text
 
-def send_analyze(file):
+def send_analyze(files):
     params=dict()
 
     url='http://audio.norijacoby.com/analyze'
@@ -76,9 +79,9 @@ def send_analyze(file):
     session_id=str(random.randint(1000,10000))
     file_id=str(random.randint(1000,10000))
     return_route='http://audio.norijacoby.com/boo' #the url should have the following form http:/xxx/boo/is_sucess/done-fname
-    aver=sver
+    sver=aver
 
-    params.update({'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':aver })
+    params.update({'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':sver })
 
     rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
     pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
@@ -139,7 +142,10 @@ def upload_route():
 
 @app.route("/createpitch/<int:midi>", methods = ['GET'])
 def createpitch_route(midi):
-    data=reate_pitch_stim(midi)
+    try:
+        data=create_pitch_stim(midi)
+    except Exception as e:
+        print(e)
     return Response(json.dumps(data), status=200, mimetype='application/json')
 
 
