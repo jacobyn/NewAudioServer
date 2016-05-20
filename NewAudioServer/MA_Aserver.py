@@ -159,6 +159,7 @@ def anal():
             session_id=params['session_id']
             file_id=params['file_id']
             sver=params['ver']
+            mscript=params['mscript']
 
             rfname =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.run.sh'
             rfname=os.path.join(app.config['RUN_FOLDER'],rfname)
@@ -178,7 +179,7 @@ def anal():
             os.system("sudo su - root " + rfname + " & ")
             ##########################################  end of script shell creating
             print "*************************************************"
-            print "*** seems to be ok:\n *** running= {}\n *** rfname={} ".format(matlab_cmd,rfname)
+            print "*** seems to be ok:\n *** running= {}\n *** rfname={} \n *** script={} ".format(matlab_cmd,rfname,mscript)
             print "**************************************************"
 
             return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
