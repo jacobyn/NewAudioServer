@@ -34,11 +34,13 @@ end
 
 fprintf('saving pitch info to file: %s\n',rfname)
 FID=fopen(rfname,'w');
+P
 P.fqs=fq;
 P.midis=midi;
 P.starts=start_stop(:,1);
 P.stops=start_stop(:,2);
 json=savejson('',P);
+fprintf('json:%s\n',json);
 fprintf(FID,'%s\n',json);
 fclose(FID);
 fprintf('saving pitch to file: %s\n',rfname)
