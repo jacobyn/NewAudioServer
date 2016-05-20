@@ -7,9 +7,9 @@ if isfield(P,'donefilename')
     rfname=P.donefilename;
 else
     if length(fname)>3 && (strfind(fname((end-3):(end)),'ogg')<1)
-        rfname=sprintf('%s.ogg',fname);
+        rfname=sprintf('res/%s.ogg',fname);
     else
-        rfname=sprintf('%s',fname);
+        rfname=sprintf('res/%s',fname);
     end
 end
 

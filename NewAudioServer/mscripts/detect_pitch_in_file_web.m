@@ -18,9 +18,9 @@ ISPLOT=false;
 [fq,midi,start_stop]=detect_pitch_nori(myaudio,fs,ISPLOT);
 
 if isfield(P,'donefilename')
-    rfname=P.donefilename;
+    rfname=sprintf('res/%s',P.donefilename);
 else
-    rfname=sprintf('%s.mresults.json',fname);
+    rfname=sprintf('res/%s.mresults.json',fname);
 end
 
 fprintf('results of analysis:\n');
@@ -37,5 +37,5 @@ P.stops=start_stop(:,2);
 json=savejson('',P);
 fprintf(FID,'%s\n',json);
 fclose(FID);
-fprintf('saving pitch to file: %s (SUCESS!)\n',rfname)
+fprintf('saving pitch to file: %s\n',rfname)
 
