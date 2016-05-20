@@ -4,7 +4,7 @@ function rfname=pitch_stim_create(fname,P)
 
 
 if isfield(P,'donefilename')
-    rfname=P.donefilename;
+    rfname=sprintf('res/%s',P.donefilename);
 else
     if length(fname)>3 && (strfind(fname((end-3):(end)),'ogg')<1)
         rfname=sprintf('res/%s.ogg',fname);
