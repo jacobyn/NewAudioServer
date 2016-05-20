@@ -36,6 +36,7 @@ def create_pitch_stim(midi):
     mscript='pitch_stim_create'
     session_id=str(random.randint(1000,10000))
     file_id=str(random.randint(1000,10000))
+
     return_route='http://audio.norijacoby.com/boo' #the url should have the following form http:/xxx/boo/is_sucess/done-fname
     sver=aver
 
@@ -115,9 +116,14 @@ def send_analyze(wfile):
 # This route will show a form to perform an AJAX request
 # jQuery is loaded to execute the request and update the
 # value of the operation
+# @app.route('/')
+# def index():
+#     return render_template('NA_client.html')
+
 @app.route('/')
 def index():
-    return render_template('NA_client.html')
+    return render_template('MA_pitchgame.html')
+
 
 # @app.route('/getdom')
 # def get_domain():
@@ -153,7 +159,7 @@ def createpitch_route(midi):
         data=create_pitch_stim(midi)
     except Exception as e:
         print(e)
-    return Response(json.dumps(data), status=200, mimetype='application/json')
+    return Response(data, status=200, mimetype='application/json')
 
 
 if __name__ == '__main__':

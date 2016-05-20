@@ -182,7 +182,7 @@ def anal():
             print "*** seems to be ok:\n *** running= {}\n *** rfname={} \n *** script={} ".format(matlab_cmd,rfname,mscript)
             print "**************************************************"
 
-            return Response(json.dumps({'pfname': opfname}), status=200, mimetype='application/json')
+            return Response(json.dumps(params), status=200, mimetype='application/json')
 
     except Exception as e:
         print(e)
