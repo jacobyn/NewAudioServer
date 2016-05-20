@@ -7,6 +7,7 @@
 function MA_Mwraper(pfile)
 
 addpath([pwd,'/mscripts']);
+addpath('/var/www/NewAudioServer/NewAudioServer/mscripts')
 
 fprintf('MWrap: reading basic params...\n');
 

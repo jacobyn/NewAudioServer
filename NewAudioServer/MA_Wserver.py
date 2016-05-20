@@ -103,7 +103,7 @@ def send_analyze(wfile):
     if wfile is None:
         wfile = StringIO.StringIO("<empty>")
 
-    files = {'rec': (rfilename, file), 'param': (pfilename,pfile)}
+    files = {'rec': (rfilename, wfile), 'param': (pfilename,pfile)}
     r = requests.post(url, files=files)
     pfile.close()
     print r.text
@@ -138,9 +138,9 @@ def getAudioFileName_route():
 def upload_route():
     try:
         if request.method == 'POST':
-            file = request.files['file']
+            wfile = request.files['file']
             print "about to  sent: "
-            return send_analyze(file)
+            return send_analyze(wfile)
     except Exception as e:
         print(e)
 
