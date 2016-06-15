@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+   <script src="/static/lib/reqwest.min.js" type="text/javascript"> </script>
+   <!-- <script src="/static/js/wallace.js" type="text/javascript"> </script> -->
+   <!--  <script src="static/lib/easeljs-0.7.0.min.js"></script> -->
+  <script src="/static/lib/jquery-2.2.1.min.js"></script>
+  <script src="static/js/recorder.js"></script>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<title>Pitch game</title>
+  <style type='text/css'>
+    ul { list-style: none; }
+    #recordingslist audio { display: block; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h1> Pitch game</h1>
+  <input type="text" name="Midi Note: " value="58" id="midiNote"><br>
+  <br>
+  <button onclick="pitch_create_stimulus()">Create stimulus:</button>
+  <br>
+  <audio controls id="audioPlayer">
+  <!-- <source src="http://www.norijacoby.com/stim.ogg" type="audio/ogg"> -->
+  <!-- <source src="static/assets/stim.mp3" type="audio/mpeg"> -->
+    Your browser does not support the audio element. Make sure you are using a recent version of Google Chrome.
+  </audio>
+  <br>
+ <!--  <p>Do it in stages:</p>
+  <button onclick="load_stim(this);">load stimulus</button>
+  <button onclick="play_record(this);">play record</button>
+  <button onclick="play_record(this);">upload response</button>
+ -->
+  <p>Play and record</p>
+  <button onclick="getAudioFileName_andPlayRecordUpload(this);" disabled type="button" id="playrecord">load,play,record and upload</button>
+
+<!--   <button onclick="startRecording(this);">record</button>
+  <button onclick="stopRecording(this);" disabled>stop</button>
+  <button onclick="do_play();">play again</button>
+ -->
+  <h2>Final results</h2>
+  <pre id="result"></pre>
+
+
+  <h2>Log</h2>
+  <pre id="log"></pre>
+
+  <script src="static/js/PitchGame01.js"></script>
+
+
+
+</body>
+</html>
