@@ -13,6 +13,9 @@ import urllib2
 
 IS_MAC=False
 
+# Initialize the Flask application
+app = Flask(__name__)
+
 
 # This is the path to the upload directory
 if IS_MAC:
@@ -27,8 +30,6 @@ else:
 ##############  WALLACE SERVER ###############
 aver='MA1'
 
-# Initialize the Flask application
-app = Flask(__name__)
 
 burl_res='http://audio.norijacoby.com/res/'
 
