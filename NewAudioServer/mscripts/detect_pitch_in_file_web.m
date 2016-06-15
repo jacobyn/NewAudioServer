@@ -18,6 +18,7 @@ fprintf('audio : %3.3f sec\n trying to detect pitch\n',max(size(myaudio))/fs);
 
 ISPLOT=false;
 [fq,midi,start_stop]=detect_pitch_nori_yinonly(myaudio,fs,ISPLOT);
+praat_start_stop=detect_praat_startstop(myaudio,fs,midi,start_stop,ISPLOT);
 
 fprintf('done extracting pitch, pitch1 : %3.3f sec\n',fq(1));
 
@@ -39,6 +40,9 @@ P.fqs=fq;
 P.midis=midi;
 P.starts=start_stop(:,1);
 P.stops=start_stop(:,2);
+P.prat_starts=praat_start_stop(:,1);
+P.prat_stops=praat_start_stop(:,2);
+
 json=savejson('',P);
 fprintf('json:%s\n',json);
 fprintf(FID,'%s\n',json);

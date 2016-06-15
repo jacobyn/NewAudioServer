@@ -125,6 +125,10 @@ def do_analyze(wfile, params):
 def index():
     return render_template('MA_pitchgame.html')
 
+@app.route('/pitch')
+def run_pitch():
+    return render_template('PitchGame.html')
+
 
 # @app.route('/getdom')
 # def get_domain():

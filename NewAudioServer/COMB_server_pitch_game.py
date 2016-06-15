@@ -4,14 +4,15 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 from werkzeug import secure_filename
 import random
 import json
-import os
+
 import requests
 import shutil
+import socket
+import StringIO
+import urllib2
 
 IS_MAC=False
 
-# Initialize the Flask application
-app = Flask(__name__)
 
 # This is the path to the upload directory
 if IS_MAC:
@@ -23,7 +24,156 @@ else:
 #    matlab_cmd='matlab'
 
 
-#'/tmp/'
+##############  WALLACE SERVER ###############
+aver='MA1'
+
+# Initialize the Flask application
+app = Flask(__name__)
+
+burl_res='http://audio.norijacoby.com/res/'
+
+def create_pitch_stim(midi):
+    print "try_to_create_pitch: " + str(midi)
+
+    params=dict()
+    params.update( {'midi': midi, 'duration':2})
+    done_ext='ogg'
+    wfile=None
+
+    url='http://audio.norijacoby.com/analyze'
+    mscript='pitch_stim_create'
+    session_id=str(random.randint(1000,10000))
+    file_id=str(random.randint(1000,10000))
+
+    return_route='http://audio.norijacoby.com/boo' #the url should have the following form http:/xxx/boo/is_sucess/done-fname
+    sver=aver
+
+
+    params.update({'url':url, 'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':sver, 'done_ext':'ogg' })
+    print params
+    return do_analyze(wfile,params)
+
+
+def send_analyze(wfile):
+    params=dict()
+    done_ext='html'
+
+    url='http://audio.norijacoby.com/analyze'
+    mscript='detect_pitch_in_file_web'
+    session_id=str(random.randint(1000,10000))
+    file_id=str(random.randint(1000,10000))
+    return_route='http://audio.norijacoby.com/set_analysis_response' #the url should have the following form http:/xxx/boo/is_sucess/done-fname
+    sver=aver
+
+    params.update({'url':url,'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':sver, 'done_ext':done_ext})
+
+    return do_analyze(wfile,params)
+
+
+def do_analyze(wfile, params):
+
+    print "reading params..."
+    sver=params['ver']
+    session_id=params['session_id']
+    file_id=params['file_id']
+    print "HERE3"
+    done_ext=params['done_ext']
+    url=params['url']
+
+
+    print "setting params..."
+    rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
+    pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
+    mlogfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
+    donefilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.done.' + done_ext
+
+
+    params['rfilename']=rfilename
+    params['pfilename']=pfilename
+    #params['matlab_cmd']=matlab_cmd
+    params['mlogfilename']=mlogfilename
+    params['donefilename']=donefilename
+
+    #print matlab_cmd
+
+    #params['mlogfilename']=pfilename
+
+    print "preparing files..."
+
+    pfile = StringIO.StringIO(json.dumps(params))
+    if wfile is None:
+        wfile = StringIO.StringIO("<empty>")
+
+    # if fileNone is None:
+    #     files = {'rec': (rfilename, file), 'param': (pfilename,pfile)}
+    # else:
+    #     files = {'rec': (rfilename, file), 'param': (pfilename,pfile)}
+
+    files = {'rec': (rfilename, wfile), 'param': (pfilename,pfile)}
+
+    print('trying to send...')
+    r = requests.post(url, files=files)
+    pfile.close()
+    print('OK response... :' + r.text)
+    return r.text
+
+
+
+
+@app.route('/')
+def run_pitch():
+    return render_template('PitchGame.html')
+
+
+
+@app.route('/getAudioFileName', methods = ['GET'])
+def getAudioFileName_route():
+    #print("here...")
+    filename='http://audio.norijacoby.com/stims/stim1.ogg'
+    print ("got a get request returning filename: " + filename)
+    out= json.dumps({"fname": filename})
+    print out
+    return Response(out, status=200, mimetype='application/json')
+
+
+@app.route('/upload', methods = ['POST'])
+def upload_route():
+    try:
+        if request.method == 'POST':
+            wfile = request.files['file']
+            print "about to  sent: "
+            return send_analyze(wfile)
+    except Exception as e:
+        print(e)
+
+@app.route("/createpitch/<int:midi>", methods = ['GET'])
+def createpitch_route(midi):
+    try:
+        data=create_pitch_stim(midi)
+    except Exception as e:
+        print(e)
+    return Response(data, status=200, mimetype='application/json')
+
+
+@app.route("/get_results_file/<rfile>", methods = ['GET'])
+def get_results_file_route(rfile):
+    murl=burl_res+rfile
+    print "trying to get result file: " + murl
+    try:
+
+        data = requests.get(murl)
+        print "read_data"
+        print data
+    except Exception as e:
+        print(e)
+    return Response(data.text, status=200, mimetype='application/html')
+
+
+
+
+
+##############  MATLAB SERVER ###############
+
 
 def shellquote(s):
     return "'" + s.replace("'", "'\\''") + "'"
@@ -32,9 +182,6 @@ def shellquote(s):
 # This route will show a form to perform an AJAX request
 # jQuery is loaded to execute the request and update the
 # value of the operation
-@app.route('/')
-def index():
-    return render_template('example_simple_exportwav.html')
 
 @app.route('/test')
 def test():
@@ -44,46 +191,6 @@ def test():
     print "*******************"
     return mver
 
-# @app.route('/stims/<path:path>')
-# def send_js(path):
-#     print "trying to..."
-#     print path
-#     return send_from_directory('stims', path)
-
-# @app.route('/do', methods = ['POST'])
-# def do():
-#     myrnd=random.randint(1000,10000)
-
-#     print "trying to process POST rq."
-#     if request.method == 'POST':
-#         print request.method
-#         file = request.files['file']
-#         pfname=file.filename.split(".")
-#         print pfname
-#         #filename ='session.' + session_id + '.script.' + script + '.file.' + fname_orig + '.rroute.' + return_route + '.wav'
-
-#         assert pfname[0]=='session_id'
-#         assert pfname[2]=='script'
-#         assert pfname[4]=='file'
-#         assert pfname[6]=='rroute'
-#         session_id= pfname[1]
-#         script= pfname[3]
-#         fname_orig= pfname[5]
-#         return_route= pfname[7]
-
-#         filename ='RES-' + session_id + '-' + script + '-' + fname_orig + '-' + return_route + '-rnd-' + str(myrnd)+ '.wav'
-
-#         tfname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
-#         print "tfname:" + tfname
-
-#         file.save(tempfname)
-#         print "saved in " + tempfname
-
-#         cmd = matlab_cmd + " -nodisplay -nodesktop -nosplash -nojvm -r \" wraper (\'" + tfname + "\', \'" + script + "\', \'" + rroute + "\' ); exit\" >" + filename + ".log &"
-#         print cmd
-#         os.system(cmd)
-
-#         return Response(json.dumps({'filename': filename, 'cmd': cmd}), status=200, mimetype='application/json')
 
 @app.route('/clear')
 def clear_res_dir():
@@ -192,67 +299,4 @@ def anal():
 
 if __name__ == '__main__':
    app.run()
-# def analyze():
-#     myrnd=random.randint(1000,10000)
-#     filename ='AAA_uploaded'+str(myrnd)+'.wav'
-
-#     if request.method == 'POST':
-#         #print request.method
-#         file = request.files['file']
-#         temp_fname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
-#         temp_fname='stam.wav'
-#         file.save(temp_fname)
-
-#         return Response(json.dumps({'filename': filename}), status=200, mimetype='application/json')
-
-# How to do send
-# import requests
-# url = 'http://127.0.0.1:5000/upload'
-# files = {'file': open('uploads/uploaded2.wav', 'rb')}
-# r = requests.post(url, files=files)
-# r.text
-
-
-# @app.route('/upload', methods = ['POST'])
-# def upldfile():
-
-#     if request.method == 'POST':
-#         print request.method
-#         file = request.files['file']
-#         #filename = secure_filename(file.filename)
-#         filename ='uploaded.wav'
-#         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-#         print "saved in " + filename
-#         print file
-#         return "OK"
-
-
-
-     # #f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
-        # file.save(tempfname)
-        # print "saved in " + tempfname
-
-        # #parse fname
-        # pfname=ofname.split(".")
-        # print pfname
-        # assert pfname[0]=='session'
-        # assert pfname[2]=='script'
-        # assert pfname[4]=='file'
-        # session_id=secure_filename(pfname[1])
-        # mscript=secure_filename(pfname[3])
-        # fname=secure_filename(pfname[5])
-
-        # filename ='BBB-' + session_id + '-' + mscript + '-' + fname + '-rnd-' + str(myrnd)+ '.wav'
-        # #filename ='uploadedxxx.wav'
-        # tempfname=os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        # print "tempfname:" + tempfname
-        # #f= open('/var/www/NewAudioServer/NewAudioServer/uploads/uploaded.wav', 'rb')
-        # file.save(tempfname)
-        # print "saved in " + tempfname
-
-        # cmd = matlab_cmd + " -nodisplay -nodesktop -nosplash -nojvm -r \"AudioInfo(\'" + tempfname + "\'); exit\" > temp.out &"
-        # print cmd
-        # os.system(cmd)
-
-        # return Response(json.dumps({'filename': filename, 'cmd': cmd}), status=200, mimetype='application/json')
 
