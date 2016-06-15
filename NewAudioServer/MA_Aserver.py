@@ -34,7 +34,7 @@ def shellquote(s):
 # value of the operation
 @app.route('/')
 def index():
-    return render_template('example_simple_exportwav.html')
+    return render_template('hellow_world.html')
 
 @app.route('/test')
 def test():
