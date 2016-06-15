@@ -102,7 +102,7 @@ def boo2():
 def boo(is_sucess,pfile):
     data = {"aaa":"boo", "status": "success", "is_sucess": int(is_sucess), "pfile": pfile}
     return Response(json.dumps(data), status=200, mimetype='application/json')
-x`
+
 @app.route("/set_analysis_response/<int:is_sucess>/<pfile>", methods=["GET"])
 def set_analysis_response2(is_sucess,pfile):
     data = {"aaa":"anal", "status": "success", "is_sucess": int(is_sucess), "pfile": pfile}
