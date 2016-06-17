@@ -111,7 +111,15 @@ def set_analysis_response2(is_sucess,pfile):
 @app.route("/is_file_exists/<pfile>", methods=["GET"])
 def is_file_exists(pfile):
   mfile='/var/www/NewAudioServer/NewAudioServer/res/' + pfile
-  return str(os.path.isfile(mfile))
+
+  print "trying to see if file: " +(mfile) + "exists..."
+  val=os.path.isfile(mfile)
+  print "resturned" + str(val)
+  if val:
+    return "1"
+   else:
+    return "0"
+
 
 
 @app.route('/analyze', methods = ['POST'])
