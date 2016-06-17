@@ -121,13 +121,18 @@ def do_analyze(wfile, params):
 # def index():
 #     return render_template('NA_client.html')
 
+# @app.route('/')
+# def index():
+#     return render_template('MA_pitchgame.html')
+
 @app.route('/')
-def index():
-    return render_template('MA_pitchgame.html')
+def run_pitch():
+    return render_template('PitchGame01.html')
+
 
 @app.route('/pitch')
 def run_pitch():
-    return render_template('PitchGame.html')
+    return render_template('PitchGame01.html')
 
 
 # @app.route('/getdom')

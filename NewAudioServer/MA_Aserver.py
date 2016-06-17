@@ -108,6 +108,11 @@ def set_analysis_response2(is_sucess,pfile):
     data = {"aaa":"anal", "status": "success", "is_sucess": int(is_sucess), "pfile": pfile}
     return Response(json.dumps(data), status=200, mimetype='application/json')
 
+@app.route("/is_file_exists/<pfile>", methods=["GET"])
+def is_file_exists(pfile):
+  mfile='/var/www/NewAudioServer/NewAudioServer/res/' + pfile
+  return os.path.isfile(mfile)
+
 
 @app.route('/analyze', methods = ['POST'])
 def anal():
