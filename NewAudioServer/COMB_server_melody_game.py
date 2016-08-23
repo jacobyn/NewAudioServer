@@ -22,6 +22,7 @@ app = Flask(__name__)
 # This is the path to the upload directory
 if IS_MAC:
     app.config['UPLOAD_FOLDER'] = 'res/'
+    app.config['RUN_FOLDER'] = 'res/' # CTUlly thiw should not be run from the mac...
 #    matlab_cmd="/Applications/MATLAB_R2014b.app/bin/matlab"
 else:
     app.config['UPLOAD_FOLDER'] = '/var/www/NewAudioServer/NewAudioServer/res/' ######### THIS DIRECTORY IS DIRABLE YOU NEED TO EVENTUALLY NOT ALLOW DIRRING
@@ -29,8 +30,8 @@ else:
 #    matlab_cmd='matlab'
 
 
-##############  WALLACE SERVER ###############
-aver='MA1'
+##############  Heroku SERVER ###############
+aver='MA2'
 
 
 burl_res='http://audio.norijacoby.com/res/'
@@ -39,11 +40,13 @@ burl_res='http://audio.norijacoby.com/res/'
 def init_params():
     LOWER_MIDI_NOTE=45
     HIGHER_MIDI_NOTE=55
-    exp1_stim_list=['static/assets/melody_1.wav','static/assets/melody_2.wav','static/assets/melody_3.wav','static/assets/melody_4.wav']
-    exp1={'name':'experiment 1', 'N_repetitions': 1,  'N_maxtrials':5, 'stim_list': exp1_stim_list}
+    exp1_stim_list=['static/assets/melody_1.wav','static/assets/melody_2.wav','static/assets/melody_3.wav','static/assets/melody_4.wav'];
+    exp1_num_notes=[4,4,4,4];
+    exp1={'name':'Melody game', 'N_repetitions': 1,  'N_maxtrials':5, 'stim_list': exp1_stim_list, 'num_notes':exp1_num_notes}
     train1_stim_list=['static/assets/pitch_1.wav','static/assets/pitch_2.wav']
-    train1={'name':'experiment 1', 'N_repetitions': 1,  'N_maxtrials':2, 'stim_list': train1_stim_list}
-    experiments=[train1,exp1]
+    train1_num_notes=[1,1]
+    train1={'name':'Pitch game', 'N_repetitions': 1,  'N_maxtrials':2, 'stim_list': train1_stim_list,'num_notes': train1_num_notes}
+    experiments=[train1, exp1]
     params={'LOWER_MIDI_NOTE': LOWER_MIDI_NOTE, 'HIGHER_MIDI_NOTE':HIGHER_MIDI_NOTE, 'experiments': experiments}
     return params
 
@@ -69,7 +72,7 @@ def create_pitch_stim(midi):
     return do_analyze(wfile,params)
 
 
-def send_analyze(wfile):
+def send_analyze(wfile,participant_id='anonym'):
     params=dict()
     done_ext='html'
 
@@ -80,7 +83,7 @@ def send_analyze(wfile):
     return_route='http://audio.norijacoby.com/set_analysis_response' #the url should have the following form http:/xxx/boo/is_sucess/done-fname
     sver=aver
 
-    params.update({'url':url,'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':sver, 'done_ext':done_ext})
+    params.update({'url':url,'mscript':mscript, 'session_id':session_id, 'file_id': file_id, 'return_route': return_route,'ver':sver, 'done_ext':done_ext, 'participant_id':participant_id})
 
     return do_analyze(wfile,params)
 
@@ -94,13 +97,14 @@ def do_analyze(wfile, params):
     print "HERE3"
     done_ext=params['done_ext']
     url=params['url']
+    participant_id=params['participant_id']
 
 
     print "setting params..."
-    rfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
-    pfilename = sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
-    mlogfilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
-    donefilename =  sver + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.done.' + done_ext
+    rfilename =  sver + '.participant.'+ participant_id +  '.session.' + str(session_id) + '.file.' + str(file_id) +  '.rec'  + '.wav'
+    pfilename = sver + '.participant.'+ participant_id + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.todo' + '.json'
+    mlogfilename =  sver + '.participant.'+ participant_id + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.mlog' + '.txt'
+    donefilename =  sver + '.participant.'+ participant_id + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.done.' + done_ext
 
 
     params['rfilename']=rfilename
@@ -150,14 +154,25 @@ def getAudioFileName_route():
     print out
     return Response(out, status=200, mimetype='application/json')
 
-
-@app.route('/upload', methods = ['POST'])
-def upload_route():
+## no participant ID...
+@app.route('/upload/', methods = ['POST'])
+def upload_route(participant_id):
     try:
         if request.method == 'POST':
             wfile = request.files['file']
             print "about to  sent: "
             return send_analyze(wfile)
+    except Exception as e:
+        print(e)
+
+## no participant ID...
+@app.route('/uploadP/<participant_id>', methods = ['POST'])
+def upload_routeP(participant_id):
+    try:
+        if request.method == 'POST':
+            wfile = request.files['file']
+            print "about to  sent: "
+            return send_analyze(wfile,participant_id)
     except Exception as e:
         print(e)
 
