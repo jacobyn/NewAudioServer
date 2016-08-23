@@ -1,0 +1,22 @@
+howto on server side:
+
+
+cat /var/log/apache2/error.log| tail -30
+git pull;sudo service apache2 restart
+
+ssh root@104.236.171.189
+
+
+pico /etc/apache2/sites-available/NewAudioServer.conf
+
+
+git pull;sudo service apache2 restart
+
+
+changinf folder:
+sudo chown -R www-data:www-data /var/www/NewAudioServer/NewAudioServer/res/
+   sudo chmod -R 755 /var/www/NewAudioServer/NewAudioServer/res/
+   sudo find /var/www/NewAudioServer/NewAudioServer/res/ -type f -exec chmod -x {} \;
+
+cat  WhatIsTheNameofVirtualEnv
+NewAudio
