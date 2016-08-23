@@ -36,12 +36,13 @@ end
 fprintf('saving pitch info to file: %s\n',rfname)
 FID=fopen(rfname,'w');
 P
-P.fqs=fq;
-P.midis=midi;
-P.starts=start_stop(:,1);
-P.stops=start_stop(:,2);
-P.prat_starts=praat_start_stop(:,1);
-P.prat_stops=praat_start_stop(:,2);
+[~,ord]=sort(prat_starts(:,1));
+P.fqs=fq(ord);
+P.midis=midi(ord);
+P.starts=start_stop(ord,1);
+P.stops=start_stop(ord,2);
+P.prat_starts=praat_start_stop(ord,1);
+P.prat_stops=praat_start_stop(ord,2);
 
 json=savejson('',P);
 fprintf('json:%s\n',json);

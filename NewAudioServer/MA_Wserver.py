@@ -70,7 +70,6 @@ def do_analyze(wfile, params):
     sver=params['ver']
     session_id=params['session_id']
     file_id=params['file_id']
-    print "HERE3"
     done_ext=params['done_ext']
     url=params['url']
 
