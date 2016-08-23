@@ -38,7 +38,7 @@ def index():
 
 @app.route('/test')
 def test():
-    mver='106'
+    mver='107'
     print "*******************"
     print "testing, ver: " + mver
     print "*******************"
@@ -87,7 +87,7 @@ def test():
 
 @app.route('/clear')
 def clear_res_dir():
-    cmd='cd /var/www/NewAudioServer/NewAudioServer/res/;rm M*.wav; rm M*.txt; rm M*.mat; rm M*.json; rm M*.ogg'
+    cmd='cd /var/www/NewAudioServer/NewAudioServer/res/;rm M*.wav; rm M*.txt; rm M*.mat; rm M*.json; rm M*.ogg; rm M*.html'
     os.system(cmd)
     cmd='cd /var/www/NewAudioServer/NewAudioServer/run/;rm M*.sh'
     os.system(cmd)
