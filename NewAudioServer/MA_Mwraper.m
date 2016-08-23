@@ -45,7 +45,7 @@ fprintf('MWrap: run command...\n');
 % create command
 cmd=sprintf('%s (''%s'', P)', mscript,rec_fname);
 fprintf('MWrap: trying to run command: %s\n',cmd)
-try 
+try
     ofname=eval(cmd); % output (response analyzed) filename (this is where the analysis data can be found)
     is_sucess=true;
     fprintf('MWrap: tried and it worked!');
@@ -56,7 +56,7 @@ catch ME
     fprintf('MWrap: ERORR(NORI):%s\n',msgText);
 end
 
-fprintf('MWrap: ping final route...\n');
+% fprintf('MWrap: ping final route...\n');
 % cmsg='/usr/bin/curl';
 % if ismac
 %     cmsg='curl';
@@ -64,7 +64,8 @@ fprintf('MWrap: ping final route...\n');
 % rcmd=sprintf('DYLD_LIBRARY_PATH=\"\";%s %s%d/%s', cmsg,return_route,is_sucess,pfname);
 % unix(rcmd)
 
-wcmd=sprintf('%s/%d/%s',return_route,is_sucess,pfile); %return filename of parameters not of anlyzed data since the output file do exist in the data
-webread(wcmd)
+%% do not ping return route
+%wcmd=sprintf('%s/%d/%s',return_route,is_sucess,pfile); %return filename of parameters not of anlyzed data since the output file do exist in the data
+%webread(wcmd)
 
 
