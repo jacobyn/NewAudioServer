@@ -36,7 +36,7 @@ end
 fprintf('saving pitch info to file: %s\n',rfname)
 FID=fopen(rfname,'w');
 P
-[~,ord]=sort(prat_starts(:,1));
+[~,ord]=sort(praat_start_stop(:,1));
 P.fqs=fq(ord);
 P.midis=midi(ord);
 P.starts=start_stop(ord,1);
