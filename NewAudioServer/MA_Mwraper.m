@@ -68,4 +68,6 @@ end
 %wcmd=sprintf('%s/%d/%s',return_route,is_sucess,pfile); %return filename of parameters not of anlyzed data since the output file do exist in the data
 %webread(wcmd)
 
+exit
+
 
