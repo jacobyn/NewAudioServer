@@ -162,7 +162,7 @@ def anal():
             mlogfilename=os.path.join(app.config['UPLOAD_FOLDER'], mlogfilename)
 
             pfilename=params['pfilename']
-            matlab_cmd= '/usr/local/bin/matlab -nodisplay -nodesktop -nosplash -nojvm -r "MA_Mwraper(\'' + pfilename +  "\'); exit\" > " + mlogfilename +' & '
+            matlab_cmd= '/usr/local/bin/matlab -nodisplay -nodesktop -nosplash -nojvm -r "MA_Mwraper(\'' + pfilename +  "\'); exit\" > " + mlogfilename
             #matlab_cmd= matlab_cmd.replace('XXXXXX/',app.config['UPLOAD_FOLDER'])
             #matlab_cmd=os.path.join(app.config['UPLOAD_FOLDER'], matlab_cmd)
 
