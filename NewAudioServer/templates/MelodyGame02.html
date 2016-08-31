@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+ <script src="/static/lib/reqwest.min.js" type="text/javascript"> </script>
+ <!-- <script src="/static/js/wallace.js" type="text/javascript"> </script> -->
+ <!--  <script src="static/lib/easeljs-0.7.0.min.js"></script> -->
+ <script src="/static/lib/jquery-2.2.1.min.js"></script>
+ <script src="static/js/recorder.js"></script>
+
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+ <title>Melody game</title>
+ <style type='text/css'>
+ ul { list-style: none; }
+ #recordingslist audio { display: block; margin-bottom: 10px; }
+ </style>
+</head>
+<body>
+
+  <h1> Melody game</h1>
+  <br>
+  <div id="trial_info" >
+    Begininig of the experiment
+  </div>
+
+  <h2>
+    <div id="experiment_title" >
+      Game 1: Pitch matching
+    </h2>
+    <div id="general_instruct" >
+      (1) You will hear a tone. <br>
+      (2) Right after the tone, sing the same tone as accurately as possible. <br>
+    </div>
+
+    <h2>
+      <div id="instruct" >
+        <p align="center">
+          Click to hear the next tone
+        </p>
+      </div>
+    </h2>
+
+
+    <p align="center">
+      <button onclick="getAudioFileName_andPlayRecordUpload(this);" id="the_action" type="button" style="height:50px;width:200px">
+        Play tone!</button>
+        <br>
+      </p>
+
+
+      <button onclick="show_results(this);" id="show_results_action"  type="button" >
+        Show results</button>
+        <br>
+  <!-- <p align="center">
+    <button onclick="get_params();" id="temp_action"  type="button" style="height:50px;width:200px">
+      get_params</button>
+      <br>
+    </p> -->
+
+  </font>
+
+
+
+
+  <br>
+  <div id="results" style="visibility:hidden">
+    ...
+  </div>
+
+  <div id="debug" >
+    ...
+  </div>
+  <audio controls id="audioPlayer">
+    Your browser does not support the audio element. Make sure you are using a recent version of Google Chrome.
+  </audio>
+  <br>
+
+  <script src="static/js/MeldoyGame02.js"></script>
+
+
+
+
+</body>
+</html>
