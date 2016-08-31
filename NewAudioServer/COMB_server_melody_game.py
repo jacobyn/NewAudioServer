@@ -40,16 +40,25 @@ burl_res='http://audio.norijacoby.com/res/'
 def init_params():
     LOWER_MIDI_NOTE=45
     HIGHER_MIDI_NOTE=55
-    descr1='1. You will hear a tone.<br>2. Right after the tone, sing the same tone as accurately as possible.'
-    descr2='1. You will hear a short melody.<br> 2. Immediately after the end of the melody, sing the note you think comes next.'
+    descr1="1. You will hear a tone.<br>2. Right after the tone, sing the same tone as accurately as possible. <br> 3. Please use the syllable 'la' for singing"
+    descr2="1. You will hear a short melody.<br> 2. Immediately after the end of the melody, sing the note you think comes next. <br> 3. Please use the syllable 'la' for singing"
     trial_messages2=['Sing the note you think comes next!','Thank you!']
     trial_messages1=['Sing the same tone as accurately as possible!','Thank you!']
 
-    exp1_stim_list=['http://audio.norijacoby.com/stims/melody_1.wav','http://audio.norijacoby.com/stims/melody_2.wav','http://audio.norijacoby.com/stims/melody_3.wav'];
-    exp1_num_notes=[4,4,4,4,4,4,4];
+    #exp1_stim_list=['http://audio.norijacoby.com/stims/melody_1.wav','http://audio.norijacoby.com/stims/melody_2.wav','http://audio.norijacoby.com/stims/melody_3.wav'];
+
+    exp1_stim_list=['http://audio.norijacoby.com/stims/HC49am.wav','http://audio.norijacoby.com/stims/HC50am.wav','http://audio.norijacoby.com/stims/HC51am.wav'];
+
+
+
+
+    exp1_num_notes=[9,9,9];
 
     exp1={'name':'Game 2: Continue the melody','description':descr2, 'trial_messages':trial_messages2, 'N_repetitions': 1,  'N_maxtrials':5, 'stim_list': exp1_stim_list, 'num_notes':exp1_num_notes}
-    train1_stim_list=['http://audio.norijacoby.com/stims/pitch_1.wav','http://audio.norijacoby.com/stims/pitch_2.wav','http://audio.norijacoby.com/stims/pitch_3.wav']
+    #train1_stim_list=['http://audio.norijacoby.com/stims/Pitch_1.wav','http://audio.norijacoby.com/stims/Pitch_2.wav','http://audio.norijacoby.com/stims/Pitch_3.wav']
+
+    train1_stim_list=['http://audio.norijacoby.com/stims/Piano_1.wav','http://audio.norijacoby.com/stims/Piano_2.wav','http://audio.norijacoby.com/stims/Piano_3.wav']
+
     train1_num_notes=[1,1,1,1,1,1,1]
     train1={'name':'Game 1: Pitch matching', 'description': descr1, 'trial_messages':trial_messages1, 'N_repetitions': 1,  'N_maxtrials':3, 'stim_list': train1_stim_list,'num_notes': train1_num_notes}
     experiments=[train1, exp1]
