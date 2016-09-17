@@ -10,6 +10,10 @@ import shutil
 import socket
 import StringIO
 import urllib2
+from os import listdir
+from os.path import isfile, join
+
+
 
 params={}
 
@@ -34,34 +38,49 @@ else:
 aver='MA2'
 
 burl_res='http://audio.norijacoby.com/res/'
+burl='http://audio.norijacoby.com'
 burl_audio='http://audio.norijacoby.com'
 
-def init_params():
-    LOWER_MIDI_NOTE=45
-    HIGHER_MIDI_NOTE=55
+def get_urls_num_notes(mypath, repetitions=1):
+    files_original = [f for f in listdir(mypath) if (isfile(join(mypath, f)) and f.split(".")[-1]=='wav') ]
+    files=[]
+    for i in range(repetitions):
+        files=files+files_original
+    number_of_notes=[f.split("n.")[1].split(".")[0] for f in files]
+    murls=["{}/{}{}".format(burl,mypath,f) for f in files]
+    return (murls,number_of_notes)
+
+
+    #print murls
+    #print number_of_notes
+
+    return (murls,number_of_notes)
+
+def init_params(is_female=True):
+
     descr1="1. You will hear a tone.<br>2. Right after the tone, sing the same tone as accurately as possible. <br> 3. Please use the syllable 'la' for singing"
     descr2="1. You will hear a short melody.<br> 2. Immediately after the end of the melody, sing the note you think comes next. <br> 3. Please use the syllable 'la' for singing"
-    trial_messages2=['Sing the note you think comes next!','Thank you!']
     trial_messages1=['Sing the same tone as accurately as possible!','Thank you!']
-
-    #exp1_stim_list=['http://audio.norijacoby.com/stims/melody_1.wav','http://audio.norijacoby.com/stims/melody_2.wav','http://audio.norijacoby.com/stims/melody_3.wav'];
-
-    exp1_stim_list=['http://audio.norijacoby.com/stims/HC49am.wav','http://audio.norijacoby.com/stims/HC50am.wav','http://audio.norijacoby.com/stims/HC51am.wav'];
+    trial_messages2=['Sing the note you think comes next!','Thank you!']
 
 
+    # exp1_stim_list=['http://audio.norijacoby.com/stims/HC49am.wav','http://audio.norijacoby.com/stims/HC50am.wav','http://audio.norijacoby.com/stims/HC51am.wav'];
+    # exp1_num_notes=[9,9,9];
+    if is_female:
+        (exp1_stim_list,exp1_num_notes)=get_urls_num_notes('stims/pitches_female',2)
+        (exp2_stim_list,exp2_num_notes)=get_urls_num_notes('stims/melodies_female',1)
+    else:
+        (exp1_stim_list,exp1_num_notes)=get_urls_num_notes('stims/pitches_male',2)
+        (exp2_stim_list,exp2_num_notes)=get_urls_num_notes('stims/melodies_male',1)
 
 
-    exp1_num_notes=[9,9,9];
+    exp1={'name':'Game 1: Pitch matching', 'description': descr1, 'trial_messages':trial_messages1, 'N_repetitions': 1,  'N_maxtrials':3, 'stim_list':exp1_stim_list,'num_notes':exp2_num_notes}
 
-    exp1={'name':'Game 2: Continue the melody','description':descr2, 'trial_messages':trial_messages2, 'N_repetitions': 1,  'N_maxtrials':5, 'stim_list': exp1_stim_list, 'num_notes':exp1_num_notes}
-    #train1_stim_list=['http://audio.norijacoby.com/stims/Pitch_1.wav','http://audio.norijacoby.com/stims/Pitch_2.wav','http://audio.norijacoby.com/stims/Pitch_3.wav']
+    exp2={'name':'Game 2: Continue the melody','description':descr2, 'trial_messages':trial_messages2, 'N_repetitions': 1,  'N_maxtrials':5, 'stim_list':exp2_stim_list, 'num_notes':exp2_num_notes}
 
-    train1_stim_list=['http://audio.norijacoby.com/stims/Piano_1.wav','http://audio.norijacoby.com/stims/Piano_2.wav','http://audio.norijacoby.com/stims/Piano_3.wav']
 
-    train1_num_notes=[1,1,1,1,1,1,1]
-    train1={'name':'Game 1: Pitch matching', 'description': descr1, 'trial_messages':trial_messages1, 'N_repetitions': 1,  'N_maxtrials':3, 'stim_list': train1_stim_list,'num_notes': train1_num_notes}
-    experiments=[train1, exp1]
-    params={'LOWER_MIDI_NOTE': LOWER_MIDI_NOTE, 'HIGHER_MIDI_NOTE':HIGHER_MIDI_NOTE, 'experiments': experiments}
+    experiments=[exp1, exp2]
+    params={'experiments': experiments}
     ## use title name < you allready have it>
     ## use instrcution
     return params
@@ -73,6 +92,7 @@ def create_pitch_stim(midi):
     params.update( {'midi': midi, 'duration':2})
     done_ext='ogg'
     wfile=None
+
 
     url='http://audio.norijacoby.com/analyze'
     mscript='pitch_stim_create'
@@ -157,7 +177,7 @@ def do_analyze(wfile, params):
 
 @app.route('/')
 def run_pitch():
-    return render_template('MelodyGame025.html')
+    return render_template('MelodyGame3.html')
 
 
 
@@ -307,9 +327,11 @@ def set_analysis_response2(is_sucess,pfile):
     return Response(json.dumps(data), status=200, mimetype='application/json')
 
 
-@app.route('/get_params/<participant_id>', methods = ['GET'])
-def get_params(participant_id):
-    params=init_params()
+@app.route('/get_params/<participant_id>/<is_female>', methods = ['GET'])
+def get_params(participant_id,is_female):
+    print "tryig to get params... female=" + is_female
+    params=['stam'];
+    params=init_params(is_female)
     print params
     try:
           return Response(json.dumps(params), status=200, mimetype='application/json')

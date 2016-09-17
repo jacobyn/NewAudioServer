@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <script src="/static/scripts/reqwest.min.js" type="text/javascript"> </script>
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css">
+  <script src="/static/lib/reqwest.min.js" type="text/javascript"> </script>
+  <script src="/static/lib/jquery-2.2.1.min.js"></script>
+  <script src="static/js/recorder.js"></script>
+</head>
+
+<div class="main_div">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+
+
+
+ <title>Melody game</title>
+ <style type='text/css'>
+ ul { list-style: none; }
+ #recordingslist audio { display: block; margin-bottom: 10px; }
+ </style>
+</head>
+<body>
+
+
+
+<!-- <button type="button" id="experiment_end_button" class="btn btn-primary btn-lg" onClick="upload_json({name:'John', time:'2pm'});">
+              Upload json try <span class="glyphicon glyphicon-arrow-right"></span>
+    </button>
+ -->
+
+  <h1> Melody game</h1>
+
+<div id="select_gender">
+What singing range would you like to use?
+<form action="">
+  <input type="radio" name="gender" value="female" onclick="wrap_params(true);"> Male<br>
+  <input type="radio" name="gender" value="male" onclick="wrap_params(false);"> Female<br>
+</form>
+
+
+
+  <br>
+   <div id="experiment" >
+  <div id="trial_info" style="visibility:hidden" >
+    Begininig of the experiment
+  </div>
+  <div id="experiment_end" style="visibility:hidden">
+    Well done! You finished this experiment.
+    <button type="button" id="experiment_end_button" class="btn btn-primary btn-lg" onClick="document.getElementById('experiment').style.visibility='visible';document.getElementById('experiment_end').style.visibility='hidden';">
+              Next experiment <span class="glyphicon glyphicon-arrow-right"></span>
+    </button>
+  </div>
+
+  <h2>
+    <div id="experiment_title" style="visibility:hidden">
+       Game 1: Pitch matching
+    </h2>
+    <div id="general_instruct" style="visibility:hidden">
+      (1) You will hear a tone. <br>
+      (2) Right after the tone, sing the same tone as accurately as possible. <br>
+    </div>
+
+    <h2>
+
+        <div id="instruct" style="visibility:hidden">
+          <p align="center">
+            Click to hear the next tone
+         </p>
+        </div>
+
+    </h2>
+    <div>
+
+
+     <!--  <div class="row">
+        <div class="col-xs-10">
+        </div>
+        <div class="col-xs-2">
+          <button type="button" id="the_action" class="btn btn-primary btn-lg" style="height:50px;width:200px" onClick="getAudioFileName_andPlayRecordUpload(this);">
+            Next <span class="glyphicon glyphicon-arrow-right"></span>
+          </button>
+        </div>
+      </div>
+    </div> -->
+          <div class="row" id="next_div" style="visibility:hidden">
+
+              <p align="center">
+            <button type="button" id="the_action" class="btn btn-primary btn-lg" style="height:50px;width:200px"  onClick="getAudioFileName_andPlayRecordUpload(this);">
+              Next <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
+             </p>
+
+          </div>
+</br></br>
+   <!--  <button type="button" id="show_results_action"    onClick="show_results(this);">
+      Show results
+    </button> -->
+
+
+  <!-- <p align="center">
+    <button onclick="get_params();" id="temp_action"  type="button" style="height:50px;width:200px">
+      get_params</button>
+      <br>
+    </p> -->
+
+  </font>
+
+
+
+  <br>
+  </div>
+  <!-- <div id="results" style="visibility:hidden"> -->
+  <div id="results" >
+  </div>
+
+
+  <div id="debug" >
+  </div>
+
+  <audio controls id="audioPlayer">
+    Your browser does not support the audio element. Make sure you are using a recent version of Google Chrome.
+  </audio>
+  <br>
+
+  <script src="static/js/MeldoyGame03.js"></script>
+
+
+
+
+</body>
+</html>
