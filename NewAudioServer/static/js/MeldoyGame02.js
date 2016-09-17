@@ -495,6 +495,13 @@ function upload_audio() {
       });
 }
 
+function upload_json (myjson) {
+  var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+  xmlhttp.open("POST", "/saveOnSever/" + participant_id);
+  xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xmlhttp.send(JSON.stringify(myjson));
+}
+
 function get_result_url (murl) {
   console.log('trying to get result file...: ' + murl)
 

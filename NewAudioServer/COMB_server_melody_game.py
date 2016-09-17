@@ -35,7 +35,7 @@ aver='MA2'
 
 
 burl_res='http://audio.norijacoby.com/res/'
-
+burl_audio='http://audio.norijacoby.com'
 
 def init_params():
     LOWER_MIDI_NOTE=45
@@ -192,6 +192,51 @@ def upload_routeP(participant_id):
             return send_analyze(wfile,participant_id)
     except Exception as e:
         print(e)
+
+@app.route('/saveOnSever/<participant_id>', methods = ['POST'])
+def saveOnSever(participant_id):
+    try:
+        print ('Save on server start...')
+        session_id=str(random.randint(1000,10000))
+        file_id=str(random.randint(1000,10000))
+        url=burl_audio + '/saveOnSever'
+        serverfilename =  aver + '.participant.'+ participant_id + '.session.' + str(session_id) + '.file.' + str(file_id)  + '.result.json' + '.html'
+        print request.method
+        print request
+        if request.method == 'POST':
+            mdata = request.data
+            print mdata
+            print ('SaveOnServer-getting things...')
+            wfile = StringIO.StringIO(mdata)
+            if wfile is None:
+                wfile = StringIO.StringIO("<empty>")
+            files = {'rec': (serverfilename , wfile)}
+
+            print('trying to send...')
+            r = requests.post(url, files=files)
+
+            print('OK response... :' + r.text)
+            return r.text
+    except Exception as e:
+        print(e)
+
+ # pfile = StringIO.StringIO(json.dumps(params))
+ #    if wfile is None:
+ #        wfile = StringIO.StringIO("<empty>")
+
+ #    # if fileNone is None:
+ #    #     files = {'rec': (rfilename, file), 'param': (pfilename,pfile)}
+ #    # else:
+ #    #     files = {'rec': (rfilename, file), 'param': (pfilename,pfile)}
+
+ #    files = {'rec': (rfilename, wfile), 'param': (pfilename,pfile)}
+
+ #    print('trying to send...')
+ #    r = requests.post(url, files=files)
+ #    pfile.close()
+ #    print('OK response... :' + r.text)
+ #    return r.text_file
+
 
 @app.route("/createpitch/<int:midi>", methods = ['GET'])
 def createpitch_route(midi):

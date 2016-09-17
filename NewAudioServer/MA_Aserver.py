@@ -85,7 +85,7 @@ def test():
 
 #         return Response(json.dumps({'filename': filename, 'cmd': cmd}), status=200, mimetype='application/json')
 
-@app.route('/clear')
+@app.route('/clear1000')
 def clear_res_dir():
     cmd='cd /var/www/NewAudioServer/NewAudioServer/res/;rm M*.wav; rm M*.txt; rm M*.mat; rm M*.json; rm M*.ogg; rm M*.html'
     os.system(cmd)
@@ -119,6 +119,29 @@ def is_file_exists(pfile):
     else:
         return "0"
 
+@app.route('/saveOnSever', methods = ['POST'])
+def saveOnServer():
+    try:
+        print "trying to process POST rq."
+        if request.method == 'POST':
+
+            print "Trying to save file on server. Method: {}".format(request.method)
+
+            rfile = request.files['rec']
+            orfname=rfile.filename
+
+
+            rfname=os.path.join(app.config['UPLOAD_FOLDER'], orfname)
+            print "rfname:" + rfname
+            rfile.save(rfname)
+            print "saved in: " + rfname
+
+
+            return Response(rfname, status=200, mimetype='application/json')
+
+    except Exception as e:
+        print(e)
+        return Response(str(e), status=400, mimetype='application/json')
 
 
 @app.route('/analyze', methods = ['POST'])
