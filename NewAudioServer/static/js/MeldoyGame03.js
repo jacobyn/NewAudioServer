@@ -100,11 +100,13 @@ function trials_next() {
         }
 
         if ((current_status_experiment==="FINISHED") & (!(current_status_all==="FINISHED"))) {
-            document.getElementById('experiment').style.visibility='hidden'
+          document.getElementById('experiment').style.visibility='hidden'
            document.getElementById('experiment_end').style.visibility='visible'
            document.getElementById("trial_info").style.visibility='hidden'
            document.getElementById("instruct").innerHTML=""
-
+           document.getElementById("experiment_title").style.visibility='hidden'
+           document.getElementById("general_instruct").style.visibility='hidden'
+           document.getElementById("next_div").style.visibility='hidden'
          }
 
 }
@@ -145,6 +147,16 @@ function get_params(is_female) {
 });
 }
 
+function setNewExperiment() {
+   document.getElementById('experiment').style.visibility='hidden'
+           document.getElementById('experiment_end').style.visibility='hidden'
+           document.getElementById("trial_info").style.visibility='visible'
+           document.getElementById("experiment_title").style.visibility='visible'
+           document.getElementById("general_instruct").style.visibility='visible'
+           document.getElementById("next_div").style.visibility='visible'
+           document.getElementById('experiment').style.visibility='visible';
+           document.getElementById('experiment_end').style.visibility='hidden';
+}
 function getRandomInt (mmin, mmax) {
     return Math.floor(Math.random() * (mmax - mmin + 1)) + mmin;
 }
@@ -267,9 +279,15 @@ function show_results_message() {
                               msg=msg+ String(note);
                           }
                           msg=msg+ "]   ";
-                          n=num_notes-1;
-                          note=experiments[e].results[t].result.midis[n][0];
-                          note=Math.round(note*100.0)/100.0;
+                          if (num_notes) {
+                            n=num_notes-1;
+                            note=experiments[e].results[t].result.midis[n][0];
+                            note=Math.round(note*100.0)/100.0;
+                          } else {
+                            note =note=experiments[e].results[t].result.midis;
+                            last_note=note;
+                            num_notes=1;
+                          }
                           msg=msg+ "last note: " + note
                           if ((num_notes-1)==experiments[e].num_notes[t])  {
                             msg= msg + " <font color='green'> OK </font> "
@@ -301,6 +319,8 @@ function show_results_message() {
           }
           msg=msg + "<br> Average accuracy (cents) [for experiment 1 only]: " + Math.round(1.0*total_acc/cnt_acc);
           document.getElementById("results").innerHTML= msg;
+          upload_txt (msg,"resultsAsText")
+          upload_json (experiments,"resultsAsData")
           return msg
 }
 function show_results() {
@@ -453,11 +473,20 @@ function upload_audio() {
       });
 }
 
-function upload_json (myjson) {
+function upload_json (myjson,myname) {
   var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
-  xmlhttp.open("POST", "/saveOnSever/" + participant_id);
+  xmlhttp.open("POST", "/saveOnSever/" + participant_id + '/' + myname);
   xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xmlhttp.send(JSON.stringify(myjson));
+  console.log('printed:' + myname )
+}
+
+function upload_txt (mytxt,myname) {
+  var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+  xmlhttp.open("POST", "/saveOnSever/" + participant_id+ '/' + myname);
+  xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xmlhttp.send(mytxt);
+  console.log('printed:' + myname )
 }
 
 function get_result_url (murl) {
@@ -562,14 +591,16 @@ function get_result_url_and_save (experiment,trial) {
 }
 
 function wrap_params(is_female) {
+  participant_id=document.getElementById("subjCode").value;
 
   if (is_female) { get_params(0);}
       else {get_params(1);}
+  document.getElementById("select_gender").style.display='none'
   document.getElementById("experiment_title").style.visibility='visible'
   document.getElementById("general_instruct").style.visibility='visible'
   document.getElementById("instruct").style.visibility='visible'
   document.getElementById("next_div").style.visibility='visible'
-  document.getElementById("select_gender").style.visibility='hidden'
+
 
 
 }

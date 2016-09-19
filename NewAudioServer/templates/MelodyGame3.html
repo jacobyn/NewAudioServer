@@ -33,13 +33,18 @@
 
   <h1> Melody game</h1>
 
-<div id="select_gender">
-What singing range would you like to use?
-<form action="">
-  <input type="radio" name="gender" value="female" onclick="wrap_params(true);"> Male<br>
-  <input type="radio" name="gender" value="male" onclick="wrap_params(false);"> Female<br>
-</form>
 
+<div id="select_gender">
+<form action="">
+  <font size="4">
+      Subject code: <input type="text" name="SubjCode" value="xxx100" id="subjCode" ><br>
+      <br>
+      What singing range would you like to use?<br>
+     &nbsp;&nbsp;<input type="radio" name="gender" value="female" onclick="wrap_params(true);"> Female<br>
+    &nbsp;&nbsp;<input type="radio" name="gender" value="male" onclick="wrap_params(false);"> Male<br>
+ </font>
+</form>
+</div>
 
 
   <br>
@@ -49,7 +54,7 @@ What singing range would you like to use?
   </div>
   <div id="experiment_end" style="visibility:hidden">
     Well done! You finished this experiment.
-    <button type="button" id="experiment_end_button" class="btn btn-primary btn-lg" onClick="document.getElementById('experiment').style.visibility='visible';document.getElementById('experiment_end').style.visibility='hidden';">
+    <button type="button" id="experiment_end_button" class="btn btn-primary btn-lg" onClick="setNewExperiment()">
               Next experiment <span class="glyphicon glyphicon-arrow-right"></span>
     </button>
   </div>
@@ -117,7 +122,7 @@ What singing range would you like to use?
   </div>
 
 
-  <div id="debug" >
+  <div id="debug" style="visibility:hidden"> >
   </div>
 
   <audio controls id="audioPlayer">
